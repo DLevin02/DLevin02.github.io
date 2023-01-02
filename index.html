@@ -28,6 +28,42 @@ p {
 <p>My next steps involve diving deeper into the various techniques and algorithms. I'm also exploring different types of Machine Learning tools and libraries, and I'm working on some basic projects to get hands-on experience. </p>
 <h2>Update 01/01/2023:</h2>
 <p>My first update: I have started this blog a little bit late as I am in the Sequential Models Course of Andrew Ng’s Deep Learning Specialization. Today I got bored of watching lectures and wanted to code so I implemented MNIST with TensorFlow. I watched the first Stanford CS244N Lecuture on NLP and realized that I just need to write code so I went through a build a house price prediction model for a Kaggle Competition.</p>
+
+<!-- HTML generated using hilite.me --><div style="background: #eeeedd; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">pandas</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45; text-decoration: underline">pd</span>
+<span style="color: #8B008B; font-weight: bold">from</span> <span style="color: #008b45; text-decoration: underline">sklearn.tree</span> <span style="color: #8B008B; font-weight: bold">import</span> DecisionTreeRegressor
+<span style="color: #8B008B; font-weight: bold">from</span> <span style="color: #008b45; text-decoration: underline">sklearn.model_selection</span> <span style="color: #8B008B; font-weight: bold">import</span> train_test_split
+<span style="color: #8B008B; font-weight: bold">from</span> <span style="color: #008b45; text-decoration: underline">sklearn.metrics</span> <span style="color: #8B008B; font-weight: bold">import</span> mean_absolute_error
+
+
+<span style="color: #228B22"># Path of the file to read</span>
+iowa_file_path = <span style="color: #CD5555">&#39;../input/home-data-for-ml-course/train.csv&#39;</span>
+
+home_data = pd.read_csv(iowa_file_path)
+y = home_data.SalePrice
+feature_columns = [<span style="color: #CD5555">&#39;LotArea&#39;</span>, <span style="color: #CD5555">&#39;YearBuilt&#39;</span>, <span style="color: #CD5555">&#39;1stFlrSF&#39;</span>, <span style="color: #CD5555">&#39;2ndFlrSF&#39;</span>, <span style="color: #CD5555">&#39;FullBath&#39;</span>, <span style="color: #CD5555">&#39;BedroomAbvGr&#39;</span>, <span style="color: #CD5555">&#39;TotRmsAbvGrd&#39;</span>]
+X = home_data[feature_columns]
+
+<span style="color: #228B22"># Specify Model</span>
+iowa_model = DecisionTreeRegressor()
+<span style="color: #228B22"># Fit Model</span>
+iowa_model.fit(X, y)
+
+train_X, val_X, train_y, val_y = 
+train_test_split(X, y, random_state=<span style="color: #B452CD">1</span>)
+
+<span style="color: #228B22"># Specify the model</span>
+iowa_model = DecisionTreeRegressor(random_state = <span style="color: #B452CD">1</span>)
+
+<span style="color: #228B22"># Fit iowa_model with the training data.</span>
+iowa_model.fit(train_X, train_y)
+
+<span style="color: #228B22"># Predict with all validation observations</span>
+val_predictions = iowa_model.predict(val_X)
+
+val_mae = mean_absolute_error(y_true, val_predictions)
+</pre></div>
+
+
 <p><b>Plan For Tommorow: Read a research paper and finish this week of Andrew Ng's Sequential Model Course</b></p>
 </body> 
 </html>

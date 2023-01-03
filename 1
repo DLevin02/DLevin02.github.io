@@ -1,6 +1,6 @@
 <html> 
 <head> 
-<title>Drew's Machine Learning journey</title> 
+<title>My Machine Learning journey</title> 
 <style> 
 h1 { 
   color: #000;
@@ -30,7 +30,8 @@ p {
 <p>My first update: I have started this blog a little bit late as I am in the Sequential Models Course of Andrew Ng’s Deep Learning Specialization. Today I got bored of watching lectures and wanted to code so I implemented MNIST with TensorFlow. I watched the first Stanford CS244N Lecuture on NLP and realized that I just need to write code so I went through a build a house price prediction model for a Kaggle Competition.</p>
 
 
-<div style="background: #eeeedd; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #8B008B; font-weight: bold">import</span> <span style="color: #008b45; text-decoration: underline">pandas</span> <span style="color: #8B008B; font-weight: bold">as</span> <span style="color: #008b45; text-decoration: underline">pd</span>
+<details>
+<summary><h3>Click to see code from Kaggle</h3></summary>
 <span style="color: #8B008B; font-weight: bold">from</span> <span style="color: #008b45; text-decoration: underline">sklearn.tree</span> <span style="color: #8B008B; font-weight: bold">import</span> DecisionTreeRegressor
 <span style="color: #8B008B; font-weight: bold">from</span> <span style="color: #008b45; text-decoration: underline">sklearn.model_selection</span> <span style="color: #8B008B; font-weight: bold">import</span> train_test_split
 <span style="color: #8B008B; font-weight: bold">from</span> <span style="color: #008b45; text-decoration: underline">sklearn.metrics</span> <span style="color: #8B008B; font-weight: bold">import</span> mean_absolute_error
@@ -62,7 +63,8 @@ iowa_model.fit(train_X, train_y)
 val_predictions = iowa_model.predict(val_X)
 
 val_mae = mean_absolute_error(y_true, val_predictions)
-</pre></div>
+</pre></div></details>
+
 
 <p><b>Plan For Tommorow: Read a research paper and finish this week of Andrew Ng's Sequential Model Course</b></p>
 </body> 

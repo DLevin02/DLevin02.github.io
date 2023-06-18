@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-06-18T15:20:27-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Drew Levin</title><subtitle>Hey there! My name is Drew, and I&apos;m a Senior at Wisconsin University.</subtitle><author><name>Drew Levin</name></author><entry><title type="html">AI Evolution: Weekly News Digest</title><link href="http://localhost:4000/blog/AI-Weeky/" rel="alternate" type="text/html" title="AI Evolution: Weekly News Digest" /><published>2023-06-18T00:00:00-04:00</published><updated>2023-06-18T00:00:00-04:00</updated><id>http://localhost:4000/blog/AI-Weeky</id><content type="html" xml:base="http://localhost:4000/blog/AI-Weeky/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-06-18T15:37:46-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Drew Levin</title><subtitle>Hey there! My name is Drew, and I&apos;m a Senior at Wisconsin University.</subtitle><author><name>Drew Levin</name></author><entry><title type="html">AI Evolution: Weekly News Digest</title><link href="http://localhost:4000/blog/AI-Weeky/" rel="alternate" type="text/html" title="AI Evolution: Weekly News Digest" /><published>2023-06-18T00:00:00-04:00</published><updated>2023-06-18T00:00:00-04:00</updated><id>http://localhost:4000/blog/AI-Weeky</id><content type="html" xml:base="http://localhost:4000/blog/AI-Weeky/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
 &lt;p&gt;AI is revolutionizing various aspects of our daily lives, with new applications and advancements emerging every week. Here’s a roundup of some of the most impactful and intriguing AI news from the past week.&lt;/p&gt;
 
 &lt;h1 id=&quot;chatbots-in-the-classroom&quot;&gt;Chatbots in the Classroom&lt;/h1&gt;
@@ -549,7 +549,50 @@ Epoch [2/2], Step [18000/18063], Loss: 0.4862
 
 &lt;p&gt;In the coming posts, we will be looking at sequence-to-sequence models, or seq2seq for short. Ever since I heard about seq2seq, I was fascinated by tthe power of transforming one form of data to another. Although these models cannot be realistically trained on a CPU given the constraints of my local machine, I think implementing them themselves will be an exciting challenge.&lt;/p&gt;
 
-&lt;p&gt;Catch you up in the next one!&lt;/p&gt;</content><author><name>Drew Levin</name></author><category term="study" /><category term="pytorch" /><category term="deep_learning" /><category term="from_scratch" /><summary type="html">In this post, we’ll take a look at RNNs, or recurrent neural networks, and attempt to implement parts of it in scratch through PyTorch. Yes, it’s not entirely from scratch in the sense that we’re still relying on PyTorch autograd to compute gradients and implement backprop, but I still think there are valuable insights we can glean from this implementation as well.</summary></entry><entry><title type="html">A Self-Created Curriculum</title><link href="http://localhost:4000/blog/studying-deep-learning/" rel="alternate" type="text/html" title="A Self-Created Curriculum" /><published>2023-01-01T00:00:00-05:00</published><updated>2023-01-01T00:00:00-05:00</updated><id>http://localhost:4000/blog/studying-deep-learning</id><content type="html" xml:base="http://localhost:4000/blog/studying-deep-learning/">&lt;h1 id=&quot;my-machine-learning-journey&quot;&gt;My Machine Learning journey&lt;/h1&gt;
+&lt;p&gt;Catch you up in the next one!&lt;/p&gt;</content><author><name>Drew Levin</name></author><category term="study" /><category term="pytorch" /><category term="deep_learning" /><category term="from_scratch" /><summary type="html">In this post, we’ll take a look at RNNs, or recurrent neural networks, and attempt to implement parts of it in scratch through PyTorch. Yes, it’s not entirely from scratch in the sense that we’re still relying on PyTorch autograd to compute gradients and implement backprop, but I still think there are valuable insights we can glean from this implementation as well.</summary></entry><entry><title type="html">AI RESOURCES</title><link href="http://localhost:4000/blog/AI-Resources/" rel="alternate" type="text/html" title="AI RESOURCES" /><published>2023-05-20T00:00:00-04:00</published><updated>2023-05-20T00:00:00-04:00</updated><id>http://localhost:4000/blog/AI-Resources</id><content type="html" xml:base="http://localhost:4000/blog/AI-Resources/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+&lt;p&gt;AI is revolutionizing various aspects of our daily lives, with new applications and advancements emerging every week. Here’s a roundup of some of the most impactful and intriguing AI news from the past week.&lt;/p&gt;
+
+&lt;h1 id=&quot;ai-resource-highlights&quot;&gt;AI Resource Highlights&lt;/h1&gt;
+&lt;p&gt;To stay informed and explore the latest developments in AI, I rely on a variety of trusted resources. Here are some of my favorites:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;The Batch by Andrew Ng&lt;/strong&gt;&lt;br /&gt;
+Andrew Ng, a globally recognized leader in AI, provides valuable insights through his platform, The Batch. As the founder of DeepLearning.AI and other prominent organizations, his expertise and contributions have made a significant impact on the AI community. &lt;a href=&quot;https://www.deeplearning.ai/the-batch/&quot;&gt;Website&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;MarkeTechPost&lt;/strong&gt;&lt;br /&gt;
+MarkeTechPost is a California-based AI News Platform with a thriving community of over 1.5 million AI professionals and developers. They deliver technical AI research news in a digestible and applicable format, making it a valuable resource for staying updated with the latest trends. &lt;a href=&quot;https://www.marktechpost.com/&quot;&gt;Website&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Papers with Code&lt;/strong&gt;&lt;br /&gt;
+Papers with Code aims to create a free and open resource that combines machine learning papers, code, datasets, methods, and evaluation tables. This platform provides a comprehensive collection of research papers, making it easier to access and implement cutting-edge AI techniques. &lt;a href=&quot;https://paperswithcode.com/&quot;&gt;Website&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;TLDR AI&lt;/strong&gt;&lt;br /&gt;
+TLDR AI offers quick and concise summaries of AI, machine learning, and data science topics, all within a five-minute read. This resource is perfect for busy individuals who want to stay informed about the latest AI advancements without spending too much time. &lt;a href=&quot;https://tldr.tech/ai&quot;&gt;Website&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Bloomberg Technology&lt;/strong&gt;&lt;br /&gt;
+Bloomberg Technology covers a wide range of technology-related news, including AI. Their insightful articles and analysis provide valuable perspectives on the intersection of AI and various industries, making it a reliable resource for industry trends and developments. &lt;a href=&quot;https://www.bloomberg.com/technology&quot;&gt;Website&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;In addition to these platforms, I also find Twitter to be a valuable source of AI news and insights. Here are some Twitter accounts I follow:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;@dair_ai: Focuses on democratizing AI research, education, and technologies.&lt;/li&gt;
+  &lt;li&gt;@papers_daily: Tweets popular AI papers, curated by @labmlai and AK @_akhaliq.&lt;/li&gt;
+  &lt;li&gt;@Gradio: Shares information about AI, ML, and data science, often focusing on practical applications and tools.&lt;/li&gt;
+  &lt;li&gt;@ai__pub: Provides AI papers and AI research explanations for technical individuals.&lt;/li&gt;
+  &lt;li&gt;@Deeplearning_AI: Shares information about deep learning, AI, and machine learning advancements.&lt;/li&gt;
+  &lt;li&gt;@DLdotHub: Focuses on open-source software, tools, datasets, news, and research in the machine learning and data science domain, with an emphasis on deep learning.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;By utilizing these resources, I can stay up-to-date with the latest AI developments, learn from industry leaders, and explore practical applications of AI.&lt;/p&gt;
+
+&lt;h1 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h1&gt;
+&lt;p&gt;As AI continues to evolve at a rapid pace, it is more important than ever to stay informed about the latest developments and discussions. The resources mentioned in this blog post provide valuable insights, technical knowledge, and practical applications of AI. By leveraging these resources, we can actively participate in shaping the future of AI and harness its transformative power across various domains.&lt;/p&gt;</content><author><name>Drew Levin</name></author><category term="blog" /><category term="pytorch" /><category term="news" /><summary type="html">Introduction AI is revolutionizing various aspects of our daily lives, with new applications and advancements emerging every week. Here’s a roundup of some of the most impactful and intriguing AI news from the past week.</summary></entry><entry><title type="html">A Self-Created Curriculum</title><link href="http://localhost:4000/blog/studying-deep-learning/" rel="alternate" type="text/html" title="A Self-Created Curriculum" /><published>2023-01-01T00:00:00-05:00</published><updated>2023-01-01T00:00:00-05:00</updated><id>http://localhost:4000/blog/studying-deep-learning</id><content type="html" xml:base="http://localhost:4000/blog/studying-deep-learning/">&lt;h1 id=&quot;my-machine-learning-journey&quot;&gt;My Machine Learning journey&lt;/h1&gt;
 &lt;p&gt;Welcome to my blog! I’m embarking on a journey to learn Machine Learning, and I’m excited to share my experiences here. Follow me as I explore the world of Machine Learning algorithms and technologies!&lt;/p&gt;
 
 &lt;h1 id=&quot;my-first-steps&quot;&gt;My First Steps&lt;/h1&gt;

@@ -18,17 +18,19 @@ remote_theme: "mmistakes/minimal-mistakes@4.19.3"
 minimal_mistakes_skin: "default"
 minimal_mistakes_skin2: "dark"
 
-title: "Jake Tae"
+title: "Drew Levin"
 subtitle: ""
-email: jake.tae@yale.edu
+email: dslevin2@wisc.edu
 description: >- # this means to ignore newlines until "baseurl:"
-  Hey there! My name is Jake, and I'm a sophomore at Yale University.
+  Hey there! My name is Drew, and I'm a Senior at Wisconsin University.
 words_per_minute: 200
 search: true
 search_full_content: true
 
 # twitter_username: username
-github_username: jaketae
+github_username: dlevin02
+repository: DLevin02/DLevin02.github.io
+
 
 # Build settings
 markdown: kramdown
@@ -45,6 +47,9 @@ timezone: # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 include:
   - _pages
   - _portfolio
+
+pagination:
+  enabled: false
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
@@ -69,32 +74,30 @@ plugins:
   - jekyll-seo-tag
 
 author:
-  name: "Jake Tae"
-  avatar: "/assets/images/Photo.jpg"
-  bio: "An aspiring mathematician and data scientist. Fan of tech, soccer, guitar, and food."
-  location: "Seoul, KOR"
+  name: "Drew Levin"
+  avatar: "/assets/images/PHOTO.jpg"
+  bio: "An aspiring machine learning engineer and data scientist."
+  location: "Madison, WI"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope"
-      url: "mailto:jake.tae@yale.edu"
+      url: "mailto:dslevin2@wisc.edu"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/jaketae"
+      url: "https://github.com/DLevin02"
     - label: "LinkedIn"
       icon: "fab fa-fw fa-linkedin"
-      url: "https://www.linkedin.com/in/jaketae/"
-    - label: "Twitter"
-      icon: "fab fa-fw fa-twitter"
-      url: "https://twitter.com/jaesungtae"
+      url: "https://www.linkedin.com/in/drewlevin-/"
+
 
 footer:
   links:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/jaketae"
+      url: "https://github.com/DLevin02"
     - label: "LinkedIn"
       icon: "fab fa-fw fa-linkedin"
-      url: "https://www.linkedin.com/in/jaketae/"
+      url: "https://www.linkedin.com/in/drewlevin-/"
 
 # Collections
 collections:

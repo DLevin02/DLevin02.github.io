@@ -1,6 +1,7 @@
 ---
 title: PyTorch RNN from Scratch
 mathjax: true
+date: 2023-06-09
 toc: true
 categories:
   - study

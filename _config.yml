@@ -75,7 +75,7 @@ plugins:
 
 author:
   name: "Drew Levin"
-  avatar: "/assets/images/PHOTO.jpg"
+  avatar: "/assets/images/Photo.jpg"
   bio: "An aspiring machine learning engineer and data scientist."
   location: "Madison, WI"
   links:

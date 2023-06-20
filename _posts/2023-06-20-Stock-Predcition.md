@@ -183,7 +183,7 @@ data.head()
 </div>
 
 
-![title](../assets/images/Apple1.png)
+<img src="https://github.com/DLevin02/DLevin02.github.io/blob/main/assets/images/Apple1.png?raw=true"/>
 
 
 ```python
@@ -199,10 +199,6 @@ plt.xlabel('Date',fontsize=18)
 plt.ylabel('Close Price (USD)',fontsize=18)
 plt.show()
 ```
-
-
-    
-
 
 
 ```python
@@ -491,7 +487,7 @@ fig.set_figwidth(16)
 
 
     
-![title](../assets/images/Apple2.png)
+<img src="https://github.com/DLevin02/DLevin02.github.io/blob/main/assets/images/Apple2.png?raw=true"/>
     
 
 
@@ -603,7 +599,7 @@ fig.update_layout(annotations=annotations)
 
 fig.show()
 ```
-![title](../assets/images/Apple3.png)
+<img src="https://github.com/DLevin02/DLevin02.github.io/blob/main/assets/images/Apple3.png?raw=true"/>
 
 
 The model behaves well with the training set, and it also has solid performace with the test set. The model is probably overfitting, especially taking into consideration that the loss is minimal after the 40th epoch.
@@ -791,7 +787,7 @@ fig.set_figheight(6)
 fig.set_figwidth(16)
 ```
 
-![title](../assets/images/Apple4.png)
+<img src="https://github.com/DLevin02/DLevin02.github.io/blob/main/assets/images/Apple4.png?raw=true"/>
 
 
 ```python
@@ -958,7 +954,8 @@ result
 </table>
 </div>
 
-![title](../assets/images/Apple5.png)
+
+<img src="https://github.com/DLevin02/DLevin02.github.io/blob/main/assets/images/Apple5.png?raw=true"/>
 
 
 ### Conclusion

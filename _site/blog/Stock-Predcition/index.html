@@ -1,0 +1,1428 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.3 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang=" en" class="no-js">
+
+<head>
+  <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Stock Price Prediction of Apple with PyTorch - Drew Levin</title>
+<meta name="description" content="LSTM and GRU">
+
+
+  <meta name="author" content="Drew Levin">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Drew Levin">
+<meta property="og:title" content="Stock Price Prediction of Apple with PyTorch">
+<meta property="og:url" content="http://localhost:4000/blog/Stock-Predcition/">
+
+
+  <meta property="og:description" content="LSTM and GRU">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2023-06-20T00:00:00-04:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/blog/Stock-Predcition/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml"
+  type="application/atom+xml" rel="alternate" title="Drew Levin Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css" id="theme_source">
+
+<link rel="stylesheet alternate" href="/assets/css/theme2.css" id="theme_source_2">
+<script>
+  let theme = sessionStorage.getItem('theme');
+  if (theme === "dark") {
+    sessionStorage.setItem('theme', 'dark');
+    node1 = document.getElementById('theme_source');
+    node2 = document.getElementById('theme_source_2');
+    node1.setAttribute('rel', 'stylesheet alternate');
+    node2.setAttribute('rel', 'stylesheet');
+  }
+  else {
+    sessionStorage.setItem('theme', 'light');
+  }
+</script>
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+  <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+</head>
+
+<body
+  class="layout--single">
+  <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+  <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+  
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Drew Levin
+          <span class="site-subtitle"></span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+            <a href="/posts/" >Posts</a>
+          </li><li class="masthead__menu-item">
+            <a href="/resume/" >Resume</a>
+          </li><li class="masthead__menu-item">
+            <a href="/categories/" >Categories</a>
+          </li><li class="masthead__menu-item">
+            <a href="/tags/" >Tags</a>
+          </li></ul>
+        
+        <i class="fas fa-fw fa-adjust" aria-hidden="true"
+          onclick="node1=document.getElementById('theme_source');node2=document.getElementById('theme_source_2');if(node1.getAttribute('rel')=='stylesheet'){node1.setAttribute('rel', 'stylesheet alternate'); node2.setAttribute('rel', 'stylesheet');sessionStorage.setItem('theme', 'dark');}else{node2.setAttribute('rel', 'stylesheet alternate'); node1.setAttribute('rel', 'stylesheet');sessionStorage.setItem('theme', 'light');} return false;"></i>
+        
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path
+              d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z"
+              transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+  <div class="initial-content">
+    
+
+
+
+<div id="main" role="main">
+  
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Stock Price Prediction of Apple with PyTorch">
+    <meta itemprop="description" content="LSTM and GRU">
+    <meta itemprop="datePublished" content="2023-06-20T00:00:00-04:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Stock Price Prediction of Apple with PyTorch
+</h1>
+          
+            <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  13 minute read
+
+</p>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#lstm-and-gru">LSTM and GRU</a>
+    <ul>
+      <li><a href="#time-series">Time Series</a></li>
+      <li><a href="#recurrent-neural-network-rnn">Recurrent Neural Network (RNN)</a></li>
+      <li><a href="#implementation">Implementation</a></li>
+      <li><a href="#lstm">LSTM</a></li>
+      <li><a href="#gru">GRU</a></li>
+      <li><a href="#conclusion">Conclusion</a></li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <h2 id="lstm-and-gru">LSTM and GRU</h2>
+
+<h3 id="time-series">Time Series</h3>
+<p>Machine Learning’s captivating domain of time series forecasting commands attention, offering potentially significant benefits when integrated with advanced subjects like stock price prediction. Essentially, time series forecasting employs a specific model to anticipate future data points by utilizing the patterns found in previously observed value.</p>
+
+<p>A time series, by definition, is a sequence of data points arranged in chronological order. This kind of problem holds significant relevance because numerous prediction challenges incorporate a temporal aspect. Uncovering the relationship between data and time is crucial to these analyses, such as weather forecasting or earthquake prediction. However, these issues are occasionally overlooked due to the non-trivial complexities involved in modeling these temporal relationships.</p>
+
+<p>Stock market prediction entails efforts to estimate the future value of a company’s stock. The accurate prognostication of a stock’s future price can result in substantial gains, fitting this scenario into the realm of time series problems.</p>
+
+<p>Over time, numerous methods have been developed to predict stock prices accurately, given their volatile and complex fluctuations. Neural networks, particularly Recurrent Neural Networks (RNNs), have exhibited significant applicability in this field. In this context, we will construct two distinct RNN models — Long Short-Term Memory (LSTM) and Gated Recurrent Units (GRU) — using PyTorch. We aim to forecast Apples’s stock market price and compare these models’ performance in aspects of time and efficiency.</p>
+
+<h3 id="recurrent-neural-network-rnn">Recurrent Neural Network (RNN)</h3>
+
+<p>A Recurrent Neural Network (RNN) is a particular breed of artificial neural network crafted to discern patterns in sequential data to anticipate ensuing events. The power of this architecture lies in its interconnected nodes, enabling it to demonstrate dynamic behavior over time. Another notable attribute of this structure is the utilization of feedback loops for sequence processing. This feature facilitates the persistence of information, often likened to memory, rendering RNNs ideal for Natural Language Processing (NLP) and time series problems. This foundational structure gave rise to advanced architectures such as Long Short-Term Memory (LSTM) and Gated Recurrent Units (GRU).</p>
+
+<p>An LSTM unit comprises a cell and three gates: an input gate, an output gate, and a forget gate. The cell retains values over arbitrary time intervals, while the trio of gates control the influx and efflux of information from the cell.</p>
+
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*hQeBYYqZa-Qc3ss8q6J0Mg.png" alt="Alt text" title="Title text" /></p>
+
+<p>Conversely, a GRU possesses fewer parameters compared to an LSTM as it lacks an output gate. However, both configurations are capable of resolving the “short-term memory” problem typically associated with basic RNNs, and successfully maintain long-term correlations in sequential data.</p>
+
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*8JvGcDVY0tgCVMlpjY2sag.png" alt="Alt text" title="Title text" /></p>
+
+<p>While LSTM enjoys greater popularity at present, it’s anticipated that GRU will ultimately surpass it due to its enhanced speed while maintaining comparable accuracy and effectiveness. It’s likely that we’ll observe a similar outcome in this case, with the GRU model demonstrating superior performance under these conditions.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span> <span class="c1"># linear algebra
+</span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span> <span class="c1"># data processing, CSV file I/O (e.g. pd.read_csv)
+</span>
+<span class="c1"># Input data files are available in the read-only "../input/" directory
+# For example, running this (by clicking run or pressing Shift+Enter) will list all files under the input directory
+</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="k">for</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">os</span><span class="p">.</span><span class="n">walk</span><span class="p">(</span><span class="s">'./archive'</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirname</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
+
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./archive/JPM_2006-01-01_to_2018-01-01.csv
+./archive/MSFT_2006-01-01_to_2018-01-01.csv
+./archive/JNJ_2006-01-01_to_2018-01-01.csv
+./archive/UNH_2006-01-01_to_2018-01-01.csv
+./archive/CAT_2006-01-01_to_2018-01-01.csv
+./archive/AABA_2006-01-01_to_2018-01-01.csv
+./archive/HD_2006-01-01_to_2018-01-01.csv
+./archive/CVX_2006-01-01_to_2018-01-01.csv
+./archive/MMM_2006-01-01_to_2018-01-01.csv
+./archive/AMZN_2006-01-01_to_2018-01-01.csv
+./archive/CSCO_2006-01-01_to_2018-01-01.csv
+./archive/XOM_2006-01-01_to_2018-01-01.csv
+./archive/all_stocks_2017-01-01_to_2018-01-01.csv
+./archive/VZ_2006-01-01_to_2018-01-01.csv
+./archive/WMT_2006-01-01_to_2018-01-01.csv
+./archive/GS_2006-01-01_to_2018-01-01.csv
+./archive/AAPL_2006-01-01_to_2018-01-01.csv
+./archive/AXP_2006-01-01_to_2018-01-01.csv
+./archive/all_stocks_2006-01-01_to_2018-01-01.csv
+./archive/GOOGL_2006-01-01_to_2018-01-01.csv
+./archive/UTX_2006-01-01_to_2018-01-01.csv
+./archive/KO_2006-01-01_to_2018-01-01.csv
+./archive/MRK_2006-01-01_to_2018-01-01.csv
+./archive/TRV_2006-01-01_to_2018-01-01.csv
+./archive/IBM_2006-01-01_to_2018-01-01.csv
+./archive/INTC_2006-01-01_to_2018-01-01.csv
+./archive/PFE_2006-01-01_to_2018-01-01.csv
+./archive/GE_2006-01-01_to_2018-01-01.csv
+./archive/DIS_2006-01-01_to_2018-01-01.csv
+./archive/PG_2006-01-01_to_2018-01-01.csv
+./archive/BA_2006-01-01_to_2018-01-01.csv
+./archive/MCD_2006-01-01_to_2018-01-01.csv
+./archive/NKE_2006-01-01_to_2018-01-01.csv
+</code></pre></div></div>
+
+<h3 id="implementation">Implementation</h3>
+
+<p>The dataset contains historical stock prices. We are going to predict the Close price of the stock, and the following is the data behavior over the years.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">filepath</span> <span class="o">=</span> <span class="s">'./archive/AAPL_2006-01-01_to_2018-01-01.csv'</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s">'Date'</span><span class="p">)</span>
+<span class="n">data</span><span class="p">.</span><span class="n">head</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div>
+  <style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+  <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Date</th>
+      <th>Open</th>
+      <th>High</th>
+      <th>Low</th>
+      <th>Close</th>
+      <th>Volume</th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2006-01-03</td>
+      <td>10.34</td>
+      <td>10.68</td>
+      <td>10.32</td>
+      <td>10.68</td>
+      <td>201853036</td>
+      <td>AAPL</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2006-01-04</td>
+      <td>10.73</td>
+      <td>10.85</td>
+      <td>10.64</td>
+      <td>10.71</td>
+      <td>155225609</td>
+      <td>AAPL</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2006-01-05</td>
+      <td>10.69</td>
+      <td>10.70</td>
+      <td>10.54</td>
+      <td>10.63</td>
+      <td>112396081</td>
+      <td>AAPL</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2006-01-06</td>
+      <td>10.75</td>
+      <td>10.96</td>
+      <td>10.65</td>
+      <td>10.90</td>
+      <td>176139334</td>
+      <td>AAPL</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2006-01-09</td>
+      <td>10.96</td>
+      <td>11.03</td>
+      <td>10.82</td>
+      <td>10.86</td>
+      <td>168861224</td>
+      <td>AAPL</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p><img src="../assets/images/Apple1.png" alt="title" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+
+<span class="n">sns</span><span class="p">.</span><span class="n">set_style</span><span class="p">(</span><span class="s">"darkgrid"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">9</span><span class="p">))</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">[[</span><span class="s">'Close'</span><span class="p">]])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">data</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">500</span><span class="p">),</span><span class="n">data</span><span class="p">[</span><span class="s">'Date'</span><span class="p">].</span><span class="n">loc</span><span class="p">[::</span><span class="mi">500</span><span class="p">],</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">"Apple Stock Price"</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s">'bold'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">'Date'</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">'Close Price (USD)'</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">price</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="s">'Close'</span><span class="p">]]</span>
+<span class="n">price</span><span class="p">.</span><span class="n">info</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+Int64Index: 3019 entries, 0 to 3018
+Data columns (total 1 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   Close   3019 non-null   float64
+dtypes: float64(1)
+memory usage: 47.2 KB
+</code></pre></div></div>
+
+<p>I slice the data frame to get the column we want and normalize the data.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MinMaxScaler</span>
+
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">(</span><span class="n">feature_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">price</span><span class="p">[</span><span class="s">'Close'</span><span class="p">]</span> <span class="o">=</span> <span class="n">scaler</span><span class="p">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">price</span><span class="p">[</span><span class="s">'Close'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/var/folders/8_/k8h_gshs3_qdkr8glv1ff08h0000gn/T/ipykernel_43516/68737012.py:4: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  price['Close'] = scaler.fit_transform(price['Close'].values.reshape(-1,1))
+</code></pre></div></div>
+
+<p>We’re now ready to partition the data into training and test sets. But prior to that, it’s necessary to determine the width of the analysis window. This technique of employing previous time steps to forecast the subsequent time step is referred to as the sliding window approach.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">split_data</span><span class="p">(</span><span class="n">stock</span><span class="p">,</span> <span class="n">lookback</span><span class="p">):</span>
+    <span class="n">data_raw</span> <span class="o">=</span> <span class="n">stock</span><span class="p">.</span><span class="n">to_numpy</span><span class="p">()</span> <span class="c1"># convert to numpy array
+</span>    <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="c1"># create all possible sequences of length seq_len
+</span>    <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data_raw</span><span class="p">)</span> <span class="o">-</span> <span class="n">lookback</span><span class="p">):</span> 
+        <span class="n">data</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">data_raw</span><span class="p">[</span><span class="n">index</span><span class="p">:</span> <span class="n">index</span> <span class="o">+</span> <span class="n">lookback</span><span class="p">])</span>
+    
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+    <span class="n">test_set_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nb">round</span><span class="p">(</span><span class="mf">0.2</span><span class="o">*</span><span class="n">data</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]));</span>
+    <span class="n">train_set_size</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">test_set_size</span><span class="p">);</span>
+    
+    <span class="n">x_train</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:</span><span class="n">train_set_size</span><span class="p">,:</span><span class="o">-</span><span class="mi">1</span><span class="p">,:]</span>
+    <span class="n">y_train</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:</span><span class="n">train_set_size</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,:]</span>
+    
+    <span class="n">x_test</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">train_set_size</span><span class="p">:,:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">y_test</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">train_set_size</span><span class="p">:,</span><span class="o">-</span><span class="mi">1</span><span class="p">,:]</span>
+    
+    <span class="k">return</span> <span class="p">[</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">]</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">lookback</span> <span class="o">=</span> <span class="mi">20</span> <span class="c1"># choose sequence length
+</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">split_data</span><span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="n">lookback</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'x_train.shape = '</span><span class="p">,</span><span class="n">x_train</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'y_train.shape = '</span><span class="p">,</span><span class="n">y_train</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'x_test.shape = '</span><span class="p">,</span><span class="n">x_test</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'y_test.shape = '</span><span class="p">,</span><span class="n">y_test</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x_train.shape =  (2399, 19, 1)
+y_train.shape =  (2399, 1)
+x_test.shape =  (600, 19, 1)
+y_test.shape =  (600, 1)
+</code></pre></div></div>
+
+<p>Next, we convert them into tensors, the foundational data structure required for constructing a model in PyTorch.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+
+<span class="n">x_train</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">x_train</span><span class="p">).</span><span class="nb">type</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">)</span>
+<span class="n">x_test</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">x_test</span><span class="p">).</span><span class="nb">type</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">)</span>
+<span class="n">y_train_lstm</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">y_train</span><span class="p">).</span><span class="nb">type</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">)</span>
+<span class="n">y_test_lstm</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">y_test</span><span class="p">).</span><span class="nb">type</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">)</span>
+<span class="n">y_train_gru</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">y_train</span><span class="p">).</span><span class="nb">type</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">)</span>
+<span class="n">y_test_gru</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">y_test</span><span class="p">).</span><span class="nb">type</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">input_dim</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">hidden_dim</span> <span class="o">=</span> <span class="mi">32</span>
+<span class="n">num_layers</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">output_dim</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">100</span>
+</code></pre></div></div>
+
+<h3 id="lstm">LSTM</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">LSTM</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span> <span class="n">output_dim</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LSTM</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">hidden_dim</span> <span class="o">=</span> <span class="n">hidden_dim</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">num_layers</span> <span class="o">=</span> <span class="n">num_layers</span>
+        
+        <span class="bp">self</span><span class="p">.</span><span class="n">lstm</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">LSTM</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span> <span class="n">batch_first</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">output_dim</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">h0</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">num_layers</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="bp">self</span><span class="p">.</span><span class="n">hidden_dim</span><span class="p">).</span><span class="n">requires_grad_</span><span class="p">()</span>
+        <span class="n">c0</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">num_layers</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="bp">self</span><span class="p">.</span><span class="n">hidden_dim</span><span class="p">).</span><span class="n">requires_grad_</span><span class="p">()</span>
+        <span class="n">out</span><span class="p">,</span> <span class="p">(</span><span class="n">hn</span><span class="p">,</span> <span class="n">cn</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">lstm</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="n">h0</span><span class="p">.</span><span class="n">detach</span><span class="p">(),</span> <span class="n">c0</span><span class="p">.</span><span class="n">detach</span><span class="p">()))</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc</span><span class="p">(</span><span class="n">out</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span> 
+        <span class="k">return</span> <span class="n">out</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">LSTM</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">input_dim</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="o">=</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="n">output_dim</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="n">num_layers</span><span class="p">)</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">MSELoss</span><span class="p">(</span><span class="n">reduction</span><span class="o">=</span><span class="s">'mean'</span><span class="p">)</span>
+<span class="n">optimiser</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">optim</span><span class="p">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">time</span>
+
+<span class="n">hist</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">)</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">lstm</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+    <span class="n">y_train_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
+
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">y_train_pred</span><span class="p">,</span> <span class="n">y_train_lstm</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Epoch "</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="s">"MSE: "</span><span class="p">,</span> <span class="n">loss</span><span class="p">.</span><span class="n">item</span><span class="p">())</span>
+    <span class="n">hist</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">loss</span><span class="p">.</span><span class="n">item</span><span class="p">()</span>
+
+    <span class="n">optimiser</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optimiser</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+    
+<span class="n">training_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">start_time</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"Training time: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">training_time</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Epoch  0 MSE:  0.25819653272628784
+Epoch  1 MSE:  0.15166231989860535
+Epoch  2 MSE:  0.20903076231479645
+Epoch  3 MSE:  0.13991586863994598
+Epoch  4 MSE:  0.1287676990032196
+Epoch  5 MSE:  0.13563665747642517
+Epoch  6 MSE:  0.13573406636714935
+Epoch  7 MSE:  0.12434989213943481
+Epoch  8 MSE:  0.1031389907002449
+Epoch  9 MSE:  0.0779111385345459
+Epoch  10 MSE:  0.06311900913715363
+Epoch  11 MSE:  0.07091287523508072
+Epoch  12 MSE:  0.052488457411527634
+Epoch  13 MSE:  0.023740172386169434
+Epoch  14 MSE:  0.01886197179555893
+Epoch  15 MSE:  0.023339685052633286
+Epoch  16 MSE:  0.017914501950144768
+Epoch  17 MSE:  0.010528038255870342
+Epoch  18 MSE:  0.020709635689854622
+Epoch  19 MSE:  0.022142166271805763
+Epoch  20 MSE:  0.00913378968834877
+Epoch  21 MSE:  0.0032837125472724438
+Epoch  22 MSE:  0.006005624774843454
+Epoch  23 MSE:  0.009221922606229782
+Epoch  24 MSE:  0.009343614801764488
+Epoch  25 MSE:  0.007402882911264896
+Epoch  26 MSE:  0.006014988292008638
+Epoch  27 MSE:  0.006637887097895145
+Epoch  28 MSE:  0.007978024892508984
+Epoch  29 MSE:  0.007520338520407677
+Epoch  30 MSE:  0.005026531405746937
+Epoch  31 MSE:  0.002815255429595709
+Epoch  32 MSE:  0.002627915469929576
+Epoch  33 MSE:  0.0038487249985337257
+Epoch  34 MSE:  0.004618681501597166
+Epoch  35 MSE:  0.0039092665538191795
+Epoch  36 MSE:  0.002484086435288191
+Epoch  37 MSE:  0.0018542427569627762
+Epoch  38 MSE:  0.002269477816298604
+Epoch  39 MSE:  0.002432651352137327
+Epoch  40 MSE:  0.0017461515963077545
+Epoch  41 MSE:  0.001250344910658896
+Epoch  42 MSE:  0.0016412724507972598
+Epoch  43 MSE:  0.0022176974453032017
+Epoch  44 MSE:  0.002139537362381816
+Epoch  45 MSE:  0.0015903041930869222
+Epoch  46 MSE:  0.0013555067125707865
+Epoch  47 MSE:  0.0015729618025943637
+Epoch  48 MSE:  0.0015560296596959233
+Epoch  49 MSE:  0.0010814378038048744
+Epoch  50 MSE:  0.0007583849364891648
+Epoch  51 MSE:  0.0008783523226156831
+Epoch  52 MSE:  0.0010345984483137727
+Epoch  53 MSE:  0.0009140677284449339
+Epoch  54 MSE:  0.0007315980619750917
+Epoch  55 MSE:  0.0007604123093187809
+Epoch  56 MSE:  0.0008461487013846636
+Epoch  57 MSE:  0.0007311741355806589
+Epoch  58 MSE:  0.0005497800884768367
+Epoch  59 MSE:  0.0005577158881351352
+Epoch  60 MSE:  0.0006879133288748562
+Epoch  61 MSE:  0.0007144041010178626
+Epoch  62 MSE:  0.0006207934347912669
+Epoch  63 MSE:  0.0005688412929885089
+Epoch  64 MSE:  0.0005930980551056564
+Epoch  65 MSE:  0.0005647227517329156
+Epoch  66 MSE:  0.00047004505177028477
+Epoch  67 MSE:  0.0004422623314894736
+Epoch  68 MSE:  0.0004969367873854935
+Epoch  69 MSE:  0.0005126534379087389
+Epoch  70 MSE:  0.00046223439858295023
+Epoch  71 MSE:  0.00043931364780291915
+Epoch  72 MSE:  0.0004609820316545665
+Epoch  73 MSE:  0.00045188714284449816
+Epoch  74 MSE:  0.0004201307019684464
+Epoch  75 MSE:  0.00043058270239271224
+Epoch  76 MSE:  0.0004576134087983519
+Epoch  77 MSE:  0.0004446248640306294
+Epoch  78 MSE:  0.0004175296053290367
+Epoch  79 MSE:  0.00041787829832173884
+Epoch  80 MSE:  0.00041931969462893903
+Epoch  81 MSE:  0.0004008542455267161
+Epoch  82 MSE:  0.0003951751277782023
+Epoch  83 MSE:  0.0004096981429029256
+Epoch  84 MSE:  0.00041126698488369584
+Epoch  85 MSE:  0.0003979630710091442
+Epoch  86 MSE:  0.0003955823485739529
+Epoch  87 MSE:  0.0004000987682957202
+Epoch  88 MSE:  0.0003947264631278813
+Epoch  89 MSE:  0.00039027887396514416
+Epoch  90 MSE:  0.00039583834586665034
+Epoch  91 MSE:  0.00039670622209087014
+Epoch  92 MSE:  0.0003883809840772301
+Epoch  93 MSE:  0.00038467306876555085
+Epoch  94 MSE:  0.00038626548484899104
+Epoch  95 MSE:  0.00038355711149051785
+Epoch  96 MSE:  0.0003808493784163147
+Epoch  97 MSE:  0.00038343065534718335
+Epoch  98 MSE:  0.0003837483818642795
+Epoch  99 MSE:  0.00037956441519781947
+Training time: 8.352406024932861
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">predict</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">scaler</span><span class="p">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">y_train_pred</span><span class="p">.</span><span class="n">detach</span><span class="p">().</span><span class="n">numpy</span><span class="p">()))</span>
+<span class="n">original</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">scaler</span><span class="p">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">y_train_lstm</span><span class="p">.</span><span class="n">detach</span><span class="p">().</span><span class="n">numpy</span><span class="p">()))</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="n">sns</span><span class="p">.</span><span class="n">set_style</span><span class="p">(</span><span class="s">"darkgrid"</span><span class="p">)</span>    
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="p">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">original</span><span class="p">.</span><span class="n">index</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">original</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s">"Data"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'royalblue'</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="p">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">predict</span><span class="p">.</span><span class="n">index</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">predict</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s">"Training Prediction (LSTM)"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'tomato'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">'Stock price'</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s">'bold'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">"Days"</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">"Cost (USD)"</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="s">''</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="p">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">hist</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'royalblue'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">"Epoch"</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">"Loss"</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">"Training Loss"</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s">'bold'</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">set_figheight</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">set_figwidth</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="../assets/images/Apple2.png" alt="title" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">math</span><span class="p">,</span> <span class="n">time</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+
+<span class="c1"># make predictions
+</span><span class="n">y_test_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+
+<span class="c1"># invert predictions
+</span><span class="n">y_train_pred</span> <span class="o">=</span> <span class="n">scaler</span><span class="p">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">y_train_pred</span><span class="p">.</span><span class="n">detach</span><span class="p">().</span><span class="n">numpy</span><span class="p">())</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">scaler</span><span class="p">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">y_train_lstm</span><span class="p">.</span><span class="n">detach</span><span class="p">().</span><span class="n">numpy</span><span class="p">())</span>
+<span class="n">y_test_pred</span> <span class="o">=</span> <span class="n">scaler</span><span class="p">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">y_test_pred</span><span class="p">.</span><span class="n">detach</span><span class="p">().</span><span class="n">numpy</span><span class="p">())</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">scaler</span><span class="p">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">y_test_lstm</span><span class="p">.</span><span class="n">detach</span><span class="p">().</span><span class="n">numpy</span><span class="p">())</span>
+
+<span class="c1"># calculate root mean squared error
+</span><span class="n">trainScore</span> <span class="o">=</span> <span class="n">math</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_train</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">y_train_pred</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Train Score: %.2f RMSE'</span> <span class="o">%</span> <span class="p">(</span><span class="n">trainScore</span><span class="p">))</span>
+<span class="n">testScore</span> <span class="o">=</span> <span class="n">math</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">y_test_pred</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Test Score: %.2f RMSE'</span> <span class="o">%</span> <span class="p">(</span><span class="n">testScore</span><span class="p">))</span>
+<span class="n">lstm</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">trainScore</span><span class="p">)</span>
+<span class="n">lstm</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">testScore</span><span class="p">)</span>
+<span class="n">lstm</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">training_time</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Train Score: 1.65 RMSE
+Test Score: 5.56 RMSE
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># shift train predictions for plotting
+</span><span class="n">trainPredictPlot</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">price</span><span class="p">)</span>
+<span class="n">trainPredictPlot</span><span class="p">[:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">nan</span>
+<span class="n">trainPredictPlot</span><span class="p">[</span><span class="n">lookback</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">y_train_pred</span><span class="p">)</span><span class="o">+</span><span class="n">lookback</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">y_train_pred</span>
+
+<span class="c1"># shift test predictions for plotting
+</span><span class="n">testPredictPlot</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">price</span><span class="p">)</span>
+<span class="n">testPredictPlot</span><span class="p">[:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">nan</span>
+<span class="n">testPredictPlot</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">y_train_pred</span><span class="p">)</span><span class="o">+</span><span class="n">lookback</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">price</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">y_test_pred</span>
+
+<span class="n">original</span> <span class="o">=</span> <span class="n">scaler</span><span class="p">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">price</span><span class="p">[</span><span class="s">'Close'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">trainPredictPlot</span><span class="p">,</span> <span class="n">testPredictPlot</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">original</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="n">px</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="n">go</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="p">.</span><span class="n">Figure</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="p">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">go</span><span class="p">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">result</span><span class="p">.</span><span class="n">index</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">mode</span><span class="o">=</span><span class="s">'lines'</span><span class="p">,</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s">'Train prediction'</span><span class="p">)))</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="p">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">result</span><span class="p">.</span><span class="n">index</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="n">mode</span><span class="o">=</span><span class="s">'lines'</span><span class="p">,</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s">'Test prediction'</span><span class="p">))</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="p">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">go</span><span class="p">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">result</span><span class="p">.</span><span class="n">index</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">result</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                    <span class="n">mode</span><span class="o">=</span><span class="s">'lines'</span><span class="p">,</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s">'Actual Value'</span><span class="p">)))</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">update_layout</span><span class="p">(</span>
+    <span class="n">xaxis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">showline</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">showgrid</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">showticklabels</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+        <span class="n">linecolor</span><span class="o">=</span><span class="s">'white'</span><span class="p">,</span>
+        <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span>
+    <span class="p">),</span>
+    <span class="n">yaxis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">title_text</span><span class="o">=</span><span class="s">'Close (USD)'</span><span class="p">,</span>
+        <span class="n">titlefont</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+            <span class="n">family</span><span class="o">=</span><span class="s">'Rockwell'</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s">'white'</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">showline</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">showgrid</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">showticklabels</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">linecolor</span><span class="o">=</span><span class="s">'white'</span><span class="p">,</span>
+        <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">ticks</span><span class="o">=</span><span class="s">'outside'</span><span class="p">,</span>
+        <span class="n">tickfont</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+            <span class="n">family</span><span class="o">=</span><span class="s">'Rockwell'</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s">'white'</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">),</span>
+    <span class="n">showlegend</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">template</span> <span class="o">=</span> <span class="s">'plotly_dark'</span>
+
+<span class="p">)</span>
+
+
+
+<span class="n">annotations</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">annotations</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">xref</span><span class="o">=</span><span class="s">'paper'</span><span class="p">,</span> <span class="n">yref</span><span class="o">=</span><span class="s">'paper'</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.05</span><span class="p">,</span>
+                              <span class="n">xanchor</span><span class="o">=</span><span class="s">'left'</span><span class="p">,</span> <span class="n">yanchor</span><span class="o">=</span><span class="s">'bottom'</span><span class="p">,</span>
+                              <span class="n">text</span><span class="o">=</span><span class="s">'Results (LSTM)'</span><span class="p">,</span>
+                              <span class="n">font</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s">'Rockwell'</span><span class="p">,</span>
+                                        <span class="n">size</span><span class="o">=</span><span class="mi">26</span><span class="p">,</span>
+                                        <span class="n">color</span><span class="o">=</span><span class="s">'white'</span><span class="p">),</span>
+                              <span class="n">showarrow</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">annotations</span><span class="o">=</span><span class="n">annotations</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+<p><img src="../assets/images/Apple3.png" alt="title" /></p>
+
+<p>The model behaves well with the training set, and it also has solid performace with the test set. The model is probably overfitting, especially taking into consideration that the loss is minimal after the 40th epoch.</p>
+
+<h3 id="gru">GRU</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">GRU</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span> <span class="n">output_dim</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GRU</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">hidden_dim</span> <span class="o">=</span> <span class="n">hidden_dim</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">num_layers</span> <span class="o">=</span> <span class="n">num_layers</span>
+        
+        <span class="bp">self</span><span class="p">.</span><span class="n">gru</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">GRU</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span> <span class="n">batch_first</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">output_dim</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">h0</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">num_layers</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="bp">self</span><span class="p">.</span><span class="n">hidden_dim</span><span class="p">).</span><span class="n">requires_grad_</span><span class="p">()</span>
+        <span class="n">out</span><span class="p">,</span> <span class="p">(</span><span class="n">hn</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">gru</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="n">h0</span><span class="p">.</span><span class="n">detach</span><span class="p">()))</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc</span><span class="p">(</span><span class="n">out</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span> 
+        <span class="k">return</span> <span class="n">out</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">GRU</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">input_dim</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="o">=</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="n">output_dim</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="n">num_layers</span><span class="p">)</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">MSELoss</span><span class="p">(</span><span class="n">reduction</span><span class="o">=</span><span class="s">'mean'</span><span class="p">)</span>
+<span class="n">optimiser</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">optim</span><span class="p">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">hist</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">)</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">gru</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+    <span class="n">y_train_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
+
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">y_train_pred</span><span class="p">,</span> <span class="n">y_train_gru</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Epoch "</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="s">"MSE: "</span><span class="p">,</span> <span class="n">loss</span><span class="p">.</span><span class="n">item</span><span class="p">())</span>
+    <span class="n">hist</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">loss</span><span class="p">.</span><span class="n">item</span><span class="p">()</span>
+
+    <span class="n">optimiser</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optimiser</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+
+<span class="n">training_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">start_time</span>    
+<span class="k">print</span><span class="p">(</span><span class="s">"Training time: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">training_time</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Epoch  0 MSE:  0.3607046902179718
+Epoch  1 MSE:  0.13102510571479797
+Epoch  2 MSE:  0.19682788848876953
+Epoch  3 MSE:  0.12917079031467438
+Epoch  4 MSE:  0.075187087059021
+Epoch  5 MSE:  0.07155207544565201
+Epoch  6 MSE:  0.06979498267173767
+Epoch  7 MSE:  0.045164529234170914
+Epoch  8 MSE:  0.010227248072624207
+Epoch  9 MSE:  0.007098929025232792
+Epoch  10 MSE:  0.03696290776133537
+Epoch  11 MSE:  0.023822534829378128
+Epoch  12 MSE:  0.007158784195780754
+Epoch  13 MSE:  0.011737179011106491
+Epoch  14 MSE:  0.018340380862355232
+Epoch  15 MSE:  0.01571972481906414
+Epoch  16 MSE:  0.007737305015325546
+Epoch  17 MSE:  0.0022043471690267324
+Epoch  18 MSE:  0.003535511204972863
+Epoch  19 MSE:  0.009062006138265133
+Epoch  20 MSE:  0.011892840266227722
+Epoch  21 MSE:  0.009278996847569942
+Epoch  22 MSE:  0.004890399053692818
+Epoch  23 MSE:  0.00290724472142756
+Epoch  24 MSE:  0.0037367662880569696
+Epoch  25 MSE:  0.005075107794255018
+Epoch  26 MSE:  0.0048552630469202995
+Epoch  27 MSE:  0.0029767893720418215
+Epoch  28 MSE:  0.0011302019702270627
+Epoch  29 MSE:  0.0010998218785971403
+Epoch  30 MSE:  0.0027486730832606554
+Epoch  31 MSE:  0.003973710350692272
+Epoch  32 MSE:  0.0033208823297172785
+Epoch  33 MSE:  0.001725937006995082
+Epoch  34 MSE:  0.0009095442364923656
+Epoch  35 MSE:  0.0012437441619113088
+Epoch  36 MSE:  0.001808099914342165
+Epoch  37 MSE:  0.001749989576637745
+Epoch  38 MSE:  0.0011168664786964655
+Epoch  39 MSE:  0.0006078396691009402
+Epoch  40 MSE:  0.0007392823463305831
+Epoch  41 MSE:  0.0012739860685542226
+Epoch  42 MSE:  0.001527499407529831
+Epoch  43 MSE:  0.0012058777501806617
+Epoch  44 MSE:  0.0006985657382756472
+Epoch  45 MSE:  0.0005090595805086195
+Epoch  46 MSE:  0.0006709578447043896
+Epoch  47 MSE:  0.0008276336011476815
+Epoch  48 MSE:  0.0007188778254203498
+Epoch  49 MSE:  0.00046144291991367936
+Epoch  50 MSE:  0.00036167059442959726
+Epoch  51 MSE:  0.0005161706358194351
+Epoch  52 MSE:  0.0006932021933607757
+Epoch  53 MSE:  0.0006540967733599246
+Epoch  54 MSE:  0.00046293693594634533
+Epoch  55 MSE:  0.0003537530137691647
+Epoch  56 MSE:  0.0004015856538899243
+Epoch  57 MSE:  0.0004694756935350597
+Epoch  58 MSE:  0.0004315198748372495
+Epoch  59 MSE:  0.00033121410524472594
+Epoch  60 MSE:  0.0002968600601889193
+Epoch  61 MSE:  0.00035973641206510365
+Epoch  62 MSE:  0.00042053856304846704
+Epoch  63 MSE:  0.00039580956217832863
+Epoch  64 MSE:  0.00032569453469477594
+Epoch  65 MSE:  0.000298373750410974
+Epoch  66 MSE:  0.0003244410618208349
+Epoch  67 MSE:  0.00034042992047034204
+Epoch  68 MSE:  0.00031064936774782836
+Epoch  69 MSE:  0.0002729821135289967
+Epoch  70 MSE:  0.00027573812985792756
+Epoch  71 MSE:  0.0003066273347940296
+Epoch  72 MSE:  0.0003163278743159026
+Epoch  73 MSE:  0.0002932495262939483
+Epoch  74 MSE:  0.00027294218307361007
+Epoch  75 MSE:  0.0002778717316687107
+Epoch  76 MSE:  0.0002882281842175871
+Epoch  77 MSE:  0.0002800409565679729
+Epoch  78 MSE:  0.0002621126768644899
+Epoch  79 MSE:  0.0002582546148914844
+Epoch  80 MSE:  0.000269515992840752
+Epoch  81 MSE:  0.0002754448796622455
+Epoch  82 MSE:  0.0002673306444194168
+Epoch  83 MSE:  0.0002585184993222356
+Epoch  84 MSE:  0.0002598936844151467
+Epoch  85 MSE:  0.0002639705198816955
+Epoch  86 MSE:  0.00026010669535025954
+Epoch  87 MSE:  0.0002519670524634421
+Epoch  88 MSE:  0.0002499922120478004
+Epoch  89 MSE:  0.0002542092406656593
+Epoch  90 MSE:  0.0002556447288952768
+Epoch  91 MSE:  0.0002515747328288853
+Epoch  92 MSE:  0.0002483536081854254
+Epoch  93 MSE:  0.0002494044601917267
+Epoch  94 MSE:  0.0002502511197235435
+Epoch  95 MSE:  0.00024729460710659623
+Epoch  96 MSE:  0.00024373934138566256
+Epoch  97 MSE:  0.00024349824525415897
+Epoch  98 MSE:  0.000244816328631714
+Epoch  99 MSE:  0.0002440418174955994
+Training time: 8.153863906860352
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">predict</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">scaler</span><span class="p">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">y_train_pred</span><span class="p">.</span><span class="n">detach</span><span class="p">().</span><span class="n">numpy</span><span class="p">()))</span>
+<span class="n">original</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">scaler</span><span class="p">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">y_train_gru</span><span class="p">.</span><span class="n">detach</span><span class="p">().</span><span class="n">numpy</span><span class="p">()))</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="n">sns</span><span class="p">.</span><span class="n">set_style</span><span class="p">(</span><span class="s">"darkgrid"</span><span class="p">)</span>    
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="p">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">original</span><span class="p">.</span><span class="n">index</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">original</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s">"Data"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'royalblue'</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="p">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">predict</span><span class="p">.</span><span class="n">index</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">predict</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s">"Training Prediction (GRU)"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'tomato'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">'Stock price'</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s">'bold'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">"Days"</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">"Cost (USD)"</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="s">''</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="p">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">hist</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'royalblue'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">"Epoch"</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">"Loss"</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">"Training Loss"</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">14</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s">'bold'</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">set_figheight</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">set_figwidth</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="../assets/images/Apple4.png" alt="title" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">math</span><span class="p">,</span> <span class="n">time</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+
+<span class="c1"># make predictions
+</span><span class="n">y_test_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+
+<span class="c1"># invert predictions
+</span><span class="n">y_train_pred</span> <span class="o">=</span> <span class="n">scaler</span><span class="p">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">y_train_pred</span><span class="p">.</span><span class="n">detach</span><span class="p">().</span><span class="n">numpy</span><span class="p">())</span>
+<span class="n">y_train</span> <span class="o">=</span> <span class="n">scaler</span><span class="p">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">y_train_gru</span><span class="p">.</span><span class="n">detach</span><span class="p">().</span><span class="n">numpy</span><span class="p">())</span>
+<span class="n">y_test_pred</span> <span class="o">=</span> <span class="n">scaler</span><span class="p">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">y_test_pred</span><span class="p">.</span><span class="n">detach</span><span class="p">().</span><span class="n">numpy</span><span class="p">())</span>
+<span class="n">y_test</span> <span class="o">=</span> <span class="n">scaler</span><span class="p">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">y_test_gru</span><span class="p">.</span><span class="n">detach</span><span class="p">().</span><span class="n">numpy</span><span class="p">())</span>
+
+<span class="c1"># calculate root mean squared error
+</span><span class="n">trainScore</span> <span class="o">=</span> <span class="n">math</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_train</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">y_train_pred</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Train Score: %.2f RMSE'</span> <span class="o">%</span> <span class="p">(</span><span class="n">trainScore</span><span class="p">))</span>
+<span class="n">testScore</span> <span class="o">=</span> <span class="n">math</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">y_test_pred</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Test Score: %.2f RMSE'</span> <span class="o">%</span> <span class="p">(</span><span class="n">testScore</span><span class="p">))</span>
+<span class="n">gru</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">trainScore</span><span class="p">)</span>
+<span class="n">gru</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">testScore</span><span class="p">)</span>
+<span class="n">gru</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">training_time</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Train Score: 1.32 RMSE
+Test Score: 4.90 RMSE
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># shift train predictions for plotting
+</span><span class="n">trainPredictPlot</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">price</span><span class="p">)</span>
+<span class="n">trainPredictPlot</span><span class="p">[:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">nan</span>
+<span class="n">trainPredictPlot</span><span class="p">[</span><span class="n">lookback</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">y_train_pred</span><span class="p">)</span><span class="o">+</span><span class="n">lookback</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">y_train_pred</span>
+
+<span class="c1"># shift test predictions for plotting
+</span><span class="n">testPredictPlot</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">price</span><span class="p">)</span>
+<span class="n">testPredictPlot</span><span class="p">[:,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">nan</span>
+<span class="n">testPredictPlot</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">y_train_pred</span><span class="p">)</span><span class="o">+</span><span class="n">lookback</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">price</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">y_test_pred</span>
+
+<span class="n">original</span> <span class="o">=</span> <span class="n">scaler</span><span class="p">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">price</span><span class="p">[</span><span class="s">'Close'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">trainPredictPlot</span><span class="p">,</span> <span class="n">testPredictPlot</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">original</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="n">px</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="n">go</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="p">.</span><span class="n">Figure</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="p">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">go</span><span class="p">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">result</span><span class="p">.</span><span class="n">index</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">mode</span><span class="o">=</span><span class="s">'lines'</span><span class="p">,</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s">'Train prediction'</span><span class="p">)))</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="p">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">result</span><span class="p">.</span><span class="n">index</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="n">mode</span><span class="o">=</span><span class="s">'lines'</span><span class="p">,</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s">'Test prediction'</span><span class="p">))</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">go</span><span class="p">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">go</span><span class="p">.</span><span class="n">Scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">result</span><span class="p">.</span><span class="n">index</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">result</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                    <span class="n">mode</span><span class="o">=</span><span class="s">'lines'</span><span class="p">,</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s">'Actual Value'</span><span class="p">)))</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">update_layout</span><span class="p">(</span>
+    <span class="n">xaxis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">showline</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">showgrid</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">showticklabels</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+        <span class="n">linecolor</span><span class="o">=</span><span class="s">'white'</span><span class="p">,</span>
+        <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span>
+    <span class="p">),</span>
+    <span class="n">yaxis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">title_text</span><span class="o">=</span><span class="s">'Close (USD)'</span><span class="p">,</span>
+        <span class="n">titlefont</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+            <span class="n">family</span><span class="o">=</span><span class="s">'Rockwell'</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s">'white'</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">showline</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">showgrid</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">showticklabels</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">linecolor</span><span class="o">=</span><span class="s">'white'</span><span class="p">,</span>
+        <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">ticks</span><span class="o">=</span><span class="s">'outside'</span><span class="p">,</span>
+        <span class="n">tickfont</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+            <span class="n">family</span><span class="o">=</span><span class="s">'Rockwell'</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s">'white'</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">),</span>
+    <span class="n">showlegend</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">template</span> <span class="o">=</span> <span class="s">'plotly_dark'</span>
+
+<span class="p">)</span>
+
+
+
+<span class="n">annotations</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">annotations</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">xref</span><span class="o">=</span><span class="s">'paper'</span><span class="p">,</span> <span class="n">yref</span><span class="o">=</span><span class="s">'paper'</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.05</span><span class="p">,</span>
+                              <span class="n">xanchor</span><span class="o">=</span><span class="s">'left'</span><span class="p">,</span> <span class="n">yanchor</span><span class="o">=</span><span class="s">'bottom'</span><span class="p">,</span>
+                              <span class="n">text</span><span class="o">=</span><span class="s">'Results (GRU)'</span><span class="p">,</span>
+                              <span class="n">font</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s">'Rockwell'</span><span class="p">,</span>
+                                        <span class="n">size</span><span class="o">=</span><span class="mi">26</span><span class="p">,</span>
+                                        <span class="n">color</span><span class="o">=</span><span class="s">'white'</span><span class="p">),</span>
+                              <span class="n">showarrow</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">annotations</span><span class="o">=</span><span class="n">annotations</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">lstm</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lstm</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s">'LSTM'</span><span class="p">])</span>
+<span class="n">gru</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">gru</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s">'GRU'</span><span class="p">])</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">concat</span><span class="p">([</span><span class="n">lstm</span><span class="p">,</span> <span class="n">gru</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">join</span><span class="o">=</span><span class="s">'inner'</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Train RMSE'</span><span class="p">,</span> <span class="s">'Test RMSE'</span><span class="p">,</span> <span class="s">'Train Time'</span><span class="p">]</span>
+<span class="n">result</span>
+</code></pre></div></div>
+
+<div>
+  <style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+  <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>LSTM</th>
+      <th>GRU</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Train RMSE</th>
+      <td>1.648017</td>
+      <td>1.321451</td>
+    </tr>
+    <tr>
+      <th>Test RMSE</th>
+      <td>5.562765</td>
+      <td>4.904847</td>
+    </tr>
+    <tr>
+      <th>Train Time</th>
+      <td>8.352406</td>
+      <td>8.153864</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p><img src="../assets/images/Apple5.png" alt="title" /></p>
+
+<h3 id="conclusion">Conclusion</h3>
+<p>Both models demonstrate commendable performance during the training phase, but their progress seems to plateau around the 40th epoch, indicating that the predefined 100 epochs may not be necessary.</p>
+
+<p>In line with our expectations, the GRU neural network excelled over the LSTM in terms of accuracy, achieving a lower mean square error (in both training and, crucially, in the test set) and faster processing speed.</p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#news" class="page__taxonomy-item" rel="tag">news</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#pytorch" class="page__taxonomy-item" rel="tag">pytorch</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#blog" class="page__taxonomy-item" rel="tag">blog</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2023-06-20T00:00:00-04:00">June 20, 2023</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Stock+Price+Prediction+of+Apple+with+PyTorch%20http%3A%2F%2Flocalhost%3A4000%2Fblog%2FStock-Predcition%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fblog%2FStock-Predcition%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fblog%2FStock-Predcition%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/AI-Weeky/" class="pagination--pager" title="AI Evolution: Weekly News Digest
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/AI-Weeky/" rel="permalink">AI Evolution: Weekly News Digest
+</a>
+      
+    </h2>
+<!--
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  6 minute read
+
+</p>
+    
+-->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> June 18 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Introduction
+AI is revolutionizing various aspects of our daily lives, with new applications and advancements emerging every week. Here’s a roundup of some o...</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/study/pytorch-rnn/" rel="permalink">PyTorch RNN from Scratch
+</a>
+      
+    </h2>
+<!--
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  11 minute read
+
+</p>
+    
+-->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> June 09 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">In this post, we’ll take a look at RNNs, or recurrent neural networks, and attempt to implement parts of it in scratch through PyTorch. Yes, it’s not entirel...</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/AI-Resources/" rel="permalink">AI RESOURCES
+</a>
+      
+    </h2>
+<!--
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  2 minute read
+
+</p>
+    
+-->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> May 20 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Introduction
+AI is revolutionizing various aspects of our daily lives, with new applications and advancements emerging every week. Here’s a roundup of some o...</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/studying-deep-learning/" rel="permalink">A Self-Created Curriculum
+</a>
+      
+    </h2>
+<!--
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  less than 1 minute read
+
+</p>
+    
+-->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> January 01 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">My Machine Learning journey
+Welcome to my blog! I’m embarking on a journey to learn Machine Learning, and I’m excited to share my experiences here. Follow me...</p>
+  </article>
+</div>
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+  </div>
+
+  
+  <div class="search-content">
+    <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+  </div>
+  
+
+  <div class="page__footer">
+    <footer>
+      <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+      <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/DLevin02" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/drewlevin-/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 Drew Levin. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+    </footer>
+  </div>
+
+  
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://kit.fontawesome.com/4eee35f757.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-154432000-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-154432000-1');
+</script>
+
+
+
+
+
+</body>
+
+</html>

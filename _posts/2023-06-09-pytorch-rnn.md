@@ -13,9 +13,6 @@ tags:
 
 In this post, we'll take a look at RNNs, or recurrent neural networks, and attempt to implement parts of it in scratch through PyTorch. Yes, it's not entirely from scratch in the sense that we're still relying on PyTorch autograd to compute gradients and implement backprop, but I still think there are valuable insights we can glean from this implementation as well. 
 
-For a brief introductory overview of RNNs, I recommend that you check out [this previous post](https://jaketae.github.io/study/rnn/), where we explored not only what RNNs are and how they work, but also how one can go about implementing an RNN model using Keras. This time, we will be using PyTorch, but take a more hands-on approach to build a simple RNN from scratch. 
-
-Full disclaimer that this post was largely adapted from [this PyTorch tutorial](https://pytorch.org/tutorials/intermediate/char_rnn_classification_tutorial.html) this PyTorch tutorial. I modified and changed some of the steps involved in preprocessing and training. I still recommend that you check it out as a supplementary material. With that in mind, let's get started.
 
 # Data Preparation
 

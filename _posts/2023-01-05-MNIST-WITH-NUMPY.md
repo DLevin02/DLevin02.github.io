@@ -50,7 +50,7 @@ X_train, y_train = load_data('mnist_train.csv')
 X_test, y_test = load_data('mnist_test.csv')
 ```
 
-#### Setup Neural Network
+## Setup Neural Network
 
 
 ```python
@@ -301,7 +301,7 @@ NN.plot_confusion_matrix(X_test, y_test)
 <img src="https://github.com/DLevin02/DLevin02.github.io/blob/main/assets/images/MNIST3.png?raw=true" />    
 
 
-### Conclusion
+## Conclusion
 
 This was a fun project where I created a 3-layer Neural-Net only using Numpy! The model performed very well. It finished with 89.78% accuracy! I found it very intresting that the model's most common mistake was confusing 5's for 3's! The confusion matrix does confirm that model was very consistent on all numbers! 
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-06-21T10:41:10-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Drew Levin</title><subtitle>Hey there! My name is Drew, and I&apos;m a Senior at Wisconsin University.</subtitle><author><name>Drew Levin</name></author><entry><title type="html">Stock Price Prediction of Apple with PyTorch</title><link href="http://localhost:4000/blog/Stock-Predcition/" rel="alternate" type="text/html" title="Stock Price Prediction of Apple with PyTorch" /><published>2023-06-20T00:00:00-04:00</published><updated>2023-06-20T00:00:00-04:00</updated><id>http://localhost:4000/blog/Stock-Predcition</id><content type="html" xml:base="http://localhost:4000/blog/Stock-Predcition/">&lt;h2 id=&quot;lstm-and-gru&quot;&gt;LSTM and GRU&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-06-21T10:44:09-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Drew Levin</title><subtitle>Hey there! My name is Drew, and I&apos;m a Senior at Wisconsin University.</subtitle><author><name>Drew Levin</name></author><entry><title type="html">Stock Price Prediction of Apple with PyTorch</title><link href="http://localhost:4000/blog/Stock-Predcition/" rel="alternate" type="text/html" title="Stock Price Prediction of Apple with PyTorch" /><published>2023-06-20T00:00:00-04:00</published><updated>2023-06-20T00:00:00-04:00</updated><id>http://localhost:4000/blog/Stock-Predcition</id><content type="html" xml:base="http://localhost:4000/blog/Stock-Predcition/">&lt;h2 id=&quot;lstm-and-gru&quot;&gt;LSTM and GRU&lt;/h2&gt;
 
 &lt;h3 id=&quot;time-series&quot;&gt;Time Series&lt;/h3&gt;
 &lt;p&gt;Machine Learning’s captivating domain of time series forecasting commands attention, offering potentially significant benefits when integrated with advanced subjects like stock price prediction. Essentially, time series forecasting employs a specific model to anticipate future data points by utilizing the patterns found in previously observed value.&lt;/p&gt;
@@ -1733,9 +1733,9 @@ Epoch 74/75 - loss: 24704.9976 - acc: 0.8898
 Epoch 75/75 - loss: 24556.6116 - acc: 0.8904
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;img src=&quot;output_4_1.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://github.com/DLevin02/DLevin02.github.io/blob/main/assets/images/MNIST1.png?raw=true&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;output_4_2.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://github.com/DLevin02/DLevin02.github.io/blob/main/assets/images/MNIST2.png?raw=true&quot; /&gt;&lt;/p&gt;
 
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Test Accuracy: 89.78%
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
@@ -1744,7 +1744,7 @@ Epoch 75/75 - loss: 24556.6116 - acc: 0.8904
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;img src=&quot;output_5_0.png&quot; alt=&quot;png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://github.com/DLevin02/DLevin02.github.io/blob/main/assets/images/MNIST3.png?raw=true&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h3&gt;
 

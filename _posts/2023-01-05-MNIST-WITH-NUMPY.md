@@ -278,14 +278,13 @@ NN.test(X_test, y_test)
 
 
     
-![png](output_4_1.png)
+<img src="https://github.com/DLevin02/DLevin02.github.io/blob/main/assets/images/MNIST1.png?raw=true" />
     
 
 
 
     
-![png](output_4_2.png)
-    
+<img src="https://github.com/DLevin02/DLevin02.github.io/blob/main/assets/images/MNIST2.png?raw=true" />    
 
 
     Test Accuracy: 89.78%
@@ -299,8 +298,7 @@ NN.plot_confusion_matrix(X_test, y_test)
 
 
     
-![png](output_5_0.png)
-    
+<img src="https://github.com/DLevin02/DLevin02.github.io/blob/main/assets/images/MNIST3.png?raw=true" />    
 
 
 ### Conclusion

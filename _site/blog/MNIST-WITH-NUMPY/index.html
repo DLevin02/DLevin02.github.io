@@ -1,0 +1,827 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.3 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang=" en" class="no-js">
+
+<head>
+  <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>MNIST From Scratch Using NumPy - Drew Levin</title>
+<meta name="description" content="MNIST From Scratch Using NumPy">
+
+
+  <meta name="author" content="Drew Levin">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Drew Levin">
+<meta property="og:title" content="MNIST From Scratch Using NumPy">
+<meta property="og:url" content="http://localhost:4000/blog/MNIST-WITH-NUMPY/">
+
+
+  <meta property="og:description" content="MNIST From Scratch Using NumPy">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2023-01-05T00:00:00-05:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/blog/MNIST-WITH-NUMPY/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml"
+  type="application/atom+xml" rel="alternate" title="Drew Levin Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css" id="theme_source">
+
+<link rel="stylesheet alternate" href="/assets/css/theme2.css" id="theme_source_2">
+<script>
+  let theme = sessionStorage.getItem('theme');
+  if (theme === "dark") {
+    sessionStorage.setItem('theme', 'dark');
+    node1 = document.getElementById('theme_source');
+    node2 = document.getElementById('theme_source_2');
+    node1.setAttribute('rel', 'stylesheet alternate');
+    node2.setAttribute('rel', 'stylesheet');
+  }
+  else {
+    sessionStorage.setItem('theme', 'light');
+  }
+</script>
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+  <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+</head>
+
+<body
+  class="layout--single">
+  <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+  <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+  
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Drew Levin
+          <span class="site-subtitle"></span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+            <a href="/posts/" >Posts</a>
+          </li><li class="masthead__menu-item">
+            <a href="/resume/" >Resume</a>
+          </li><li class="masthead__menu-item">
+            <a href="/categories/" >Categories</a>
+          </li><li class="masthead__menu-item">
+            <a href="/tags/" >Tags</a>
+          </li></ul>
+        
+        <i class="fas fa-fw fa-adjust" aria-hidden="true"
+          onclick="node1=document.getElementById('theme_source');node2=document.getElementById('theme_source_2');if(node1.getAttribute('rel')=='stylesheet'){node1.setAttribute('rel', 'stylesheet alternate'); node2.setAttribute('rel', 'stylesheet');sessionStorage.setItem('theme', 'dark');}else{node2.setAttribute('rel', 'stylesheet alternate'); node1.setAttribute('rel', 'stylesheet');sessionStorage.setItem('theme', 'light');} return false;"></i>
+        
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path
+              d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z"
+              transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+  <div class="initial-content">
+    
+
+
+
+<div id="main" role="main">
+  
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="MNIST From Scratch Using NumPy">
+    <meta itemprop="description" content="MNIST From Scratch Using NumPy">
+    <meta itemprop="datePublished" content="2023-01-05T00:00:00-05:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">MNIST From Scratch Using NumPy
+</h1>
+          
+            <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  6 minute read
+
+</p>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#mnist-from-scratch-using-numpy">MNIST From Scratch Using NumPy</a></li>
+  <li><a href="#code-implementation">Code Implementation</a>
+    <ul>
+      <li><a href="#prep-data">Prep Data</a>
+     -  <a href="#setup-neural-network">Setup Neural Network</a>
+        <ul>
+          <li><a href="#conclusion">Conclusion</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <h1 id="mnist-from-scratch-using-numpy">MNIST From Scratch Using NumPy</h1>
+
+<p>To gain a deeper understanding of what is happening in Neural Networks I decided I wanted to complete a project froms scratch without the help of Pytorch or Tensorflow. The best part about machine learning is the easiest way to learn is by training models! Therefore I am going to train as many as I possibly can throughout this journey to master Artifical Intelligence!</p>
+
+<p>This is the training process I will be going through:</p>
+
+<p><img src="https://miro.medium.com/v2/resize:fit:1080/1*nTHoUrFO1WIcovnwC3wS_Q.gif" /></p>
+
+<p>This is the dataset I will be using:</p>
+
+<p><img src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*O35lwO5O4sK0_9GuE5aG0A.png" /></p>
+
+<h1 id="code-implementation">Code Implementation</h1>
+
+<h2 id="prep-data">Prep Data</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="k">def</span> <span class="nf">load_data</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">one_hot</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">y</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">10</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">y</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">table</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="nb">int</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">])]</span> <span class="o">=</span> <span class="mi">1</span> 
+        <span class="k">return</span> <span class="n">table</span>
+
+    <span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> 
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="mi">255</span>
+        <span class="k">return</span> <span class="n">x</span> 
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s">'{}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="n">delimiter</span> <span class="o">=</span> <span class="s">','</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">normalize</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]),</span><span class="n">one_hot</span><span class="p">(</span><span class="n">data</span><span class="p">[:,:</span><span class="mi">1</span><span class="p">])</span>
+
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="s">'mnist_train.csv'</span><span class="p">)</span>
+<span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="s">'mnist_test.csv'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h4 id="setup-neural-network">Setup Neural Network</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span>
+
+<span class="k">class</span> <span class="nc">NeuralNetwork</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">hidden_sizes</span><span class="o">=</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span> <span class="n">batch</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="p">.</span><span class="mi">008</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">75</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">X_train</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">y_train</span> <span class="o">=</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span>  <span class="c1"># training data
+</span>
+        <span class="c1"># Parameters
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">batch</span> <span class="o">=</span> <span class="n">batch</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">lr</span> <span class="o">=</span> <span class="n">lr</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">epochs</span> <span class="o">=</span> <span class="n">epochs</span>
+
+        <span class="c1"># Initialize weights and biases
+</span>        <span class="n">input_dim</span> <span class="o">=</span> <span class="n">X</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">output_dim</span> <span class="o">=</span> <span class="n">y</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">sizes</span> <span class="o">=</span> <span class="p">[</span><span class="n">input_dim</span><span class="p">,</span> <span class="o">*</span><span class="n">hidden_sizes</span><span class="p">,</span> <span class="n">output_dim</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="p">.</span><span class="n">weights</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">biases</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">sizes</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="c1"># Xavier/Glorot Initialization for weights
+</span>            <span class="n">bound</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">6.</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">sizes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="p">.</span><span class="n">sizes</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">weights</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="n">bound</span><span class="p">,</span> <span class="n">bound</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">sizes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="p">.</span><span class="n">sizes</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])))</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">biases</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">sizes</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])))</span>
+
+        <span class="c1"># List to store loss and accuracy history
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">train_loss</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">train_acc</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">ReLU</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">dReLU</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">).</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">softmax</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">e_x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">np</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">e_x</span> <span class="o">/</span> <span class="n">np</span><span class="p">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">e_x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">cross_entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="n">real</span><span class="p">):</span>
+        <span class="n">n_samples</span> <span class="o">=</span> <span class="n">real</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">pred</span> <span class="o">-</span> <span class="n">real</span>
+        <span class="k">return</span> <span class="n">res</span><span class="o">/</span><span class="n">n_samples</span>
+
+    <span class="k">def</span> <span class="nf">error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">y_real</span><span class="p">):</span>
+        <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="p">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">y_real</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_pred</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">feedforward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="n">X</span><span class="p">]</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">z</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">sizes</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">z</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">a</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="p">.</span><span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="bp">self</span><span class="p">.</span><span class="n">biases</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">a</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">z</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">z</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">a</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="p">.</span><span class="n">weights</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="bp">self</span><span class="p">.</span><span class="n">biases</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">a</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">softmax</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">z</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">a</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    
+    <span class="k">def</span> <span class="nf">backprop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">y</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">dw</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># dC/dW
+</span>        <span class="n">db</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># dC/dB
+</span>        <span class="n">dz</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="p">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">a</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">y</span><span class="p">)]</span>  <span class="c1"># dC/dz 
+</span>
+        <span class="c1"># loop through each layer in reverse order
+</span>        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">sizes</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)):</span>
+            <span class="n">dw</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">T</span><span class="p">,</span> <span class="n">dz</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="n">m</span><span class="p">)</span>
+            <span class="n">db</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">dz</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="o">/</span> <span class="n">m</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># Skip dz for input layer
+</span>                <span class="n">da</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">dz</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="p">.</span><span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">T</span><span class="p">)</span>
+                <span class="n">dz</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">da</span> <span class="o">*</span> <span class="bp">self</span><span class="p">.</span><span class="n">dReLU</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">z</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+
+        <span class="c1"># Reverse lists since we computed in reverse
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">dw</span> <span class="o">=</span> <span class="n">dw</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">db</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">update_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">sizes</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="bp">self</span><span class="p">.</span><span class="n">lr</span> <span class="o">*</span> <span class="bp">self</span><span class="p">.</span><span class="n">dw</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">biases</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="bp">self</span><span class="p">.</span><span class="n">lr</span> <span class="o">*</span> <span class="bp">self</span><span class="p">.</span><span class="n">db</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">epochs</span><span class="p">):</span>
+            <span class="c1"># Forward and Backward pass for each batch
+</span>            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">X_train</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="p">.</span><span class="n">batch</span><span class="p">):</span>
+                <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">X_train</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="bp">self</span><span class="p">.</span><span class="n">batch</span><span class="p">]</span>
+                <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">y_train</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="bp">self</span><span class="p">.</span><span class="n">batch</span><span class="p">]</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">feedforward</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">backprop</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">update_weights</span><span class="p">()</span>
+
+            <span class="c1"># Save and print loss and accuracy at the end of each epoch
+</span>            <span class="n">train_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">feedforward</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">X_train</span><span class="p">)</span>
+            <span class="n">train_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">error</span><span class="p">(</span><span class="n">train_pred</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">y_train</span><span class="p">)</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">train_loss</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">train_loss</span><span class="p">)</span>
+            <span class="n">train_acc</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">y_train</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">train_pred</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">train_acc</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">train_acc</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s">/</span><span class="si">{</span><span class="bp">self</span><span class="p">.</span><span class="n">epochs</span><span class="si">}</span><span class="s"> - loss: </span><span class="si">{</span><span class="n">train_loss</span><span class="p">:.</span><span class="mi">4</span><span class="n">f</span><span class="si">}</span><span class="s"> - acc: </span><span class="si">{</span><span class="n">train_acc</span><span class="p">:.</span><span class="mi">4</span><span class="n">f</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">plot_loss</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">train_loss</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'Train Loss'</span><span class="p">)</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">"Loss vs. Epochs"</span><span class="p">)</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">"Epochs"</span><span class="p">)</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">"Loss"</span><span class="p">)</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">grid</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">plot_acc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">train_acc</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'Train Accuracy'</span><span class="p">)</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">"Accuracy vs. Epochs"</span><span class="p">)</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">"Epochs"</span><span class="p">)</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">"Accuracy"</span><span class="p">)</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">grid</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">plot_confusion_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">):</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">feedforward</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">y_true</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+        <span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+        <span class="n">sns</span><span class="p">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s">'d'</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'Blues'</span><span class="p">)</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">"Confusion Matrix"</span><span class="p">)</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">"Predicted Label"</span><span class="p">)</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">"True Label"</span><span class="p">)</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">):</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">feedforward</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+        <span class="n">acc</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"Test Accuracy: {:.2f}%"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">acc</span><span class="p">))</span>
+
+<span class="c1"># Assume you have training data X_train, y_train and test data X_test, y_test.
+</span><span class="n">NN</span> <span class="o">=</span> <span class="n">NeuralNetwork</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">NN</span><span class="p">.</span><span class="n">train</span><span class="p">()</span>
+<span class="n">NN</span><span class="p">.</span><span class="n">plot_loss</span><span class="p">()</span>
+<span class="n">NN</span><span class="p">.</span><span class="n">plot_acc</span><span class="p">()</span>
+<span class="n">NN</span><span class="p">.</span><span class="n">test</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Epoch 1/75 - loss: 137129.5682 - acc: 0.1268
+Epoch 2/75 - loss: 131418.5482 - acc: 0.2510
+Epoch 3/75 - loss: 126235.7899 - acc: 0.3750
+Epoch 4/75 - loss: 121282.3307 - acc: 0.4682
+Epoch 5/75 - loss: 116405.4435 - acc: 0.5308
+Epoch 6/75 - loss: 111541.0515 - acc: 0.5762
+Epoch 7/75 - loss: 106677.8296 - acc: 0.6109
+Epoch 8/75 - loss: 101828.8328 - acc: 0.6406
+Epoch 9/75 - loss: 97028.6175 - acc: 0.6657
+Epoch 10/75 - loss: 92318.4315 - acc: 0.6870
+Epoch 11/75 - loss: 87754.4193 - acc: 0.7048
+Epoch 12/75 - loss: 83385.3926 - acc: 0.7205
+Epoch 13/75 - loss: 79251.8938 - acc: 0.7342
+Epoch 14/75 - loss: 75378.7727 - acc: 0.7472
+Epoch 15/75 - loss: 71773.3357 - acc: 0.7584
+Epoch 16/75 - loss: 68437.6353 - acc: 0.7689
+Epoch 17/75 - loss: 65362.9476 - acc: 0.7790
+Epoch 18/75 - loss: 62536.8781 - acc: 0.7874
+Epoch 19/75 - loss: 59943.4454 - acc: 0.7947
+Epoch 20/75 - loss: 57565.2254 - acc: 0.8012
+Epoch 21/75 - loss: 55384.5291 - acc: 0.8075
+Epoch 22/75 - loss: 53382.6301 - acc: 0.8124
+Epoch 23/75 - loss: 51543.0992 - acc: 0.8176
+Epoch 24/75 - loss: 49850.6227 - acc: 0.8219
+Epoch 25/75 - loss: 48290.0803 - acc: 0.8257
+Epoch 26/75 - loss: 46848.8197 - acc: 0.8291
+Epoch 27/75 - loss: 45515.0078 - acc: 0.8325
+Epoch 28/75 - loss: 44278.3199 - acc: 0.8354
+Epoch 29/75 - loss: 43129.9729 - acc: 0.8380
+Epoch 30/75 - loss: 42061.1922 - acc: 0.8404
+Epoch 31/75 - loss: 41065.1078 - acc: 0.8430
+Epoch 32/75 - loss: 40135.0729 - acc: 0.8456
+Epoch 33/75 - loss: 39265.3970 - acc: 0.8477
+Epoch 34/75 - loss: 38450.5495 - acc: 0.8498
+Epoch 35/75 - loss: 37685.9770 - acc: 0.8516
+Epoch 36/75 - loss: 36967.8159 - acc: 0.8534
+Epoch 37/75 - loss: 36291.8714 - acc: 0.8550
+Epoch 38/75 - loss: 35654.2947 - acc: 0.8566
+Epoch 39/75 - loss: 35052.2173 - acc: 0.8580
+Epoch 40/75 - loss: 34482.9341 - acc: 0.8598
+Epoch 41/75 - loss: 33943.8488 - acc: 0.8615
+Epoch 42/75 - loss: 33432.6360 - acc: 0.8630
+Epoch 43/75 - loss: 32947.0680 - acc: 0.8644
+Epoch 44/75 - loss: 32485.4873 - acc: 0.8657
+Epoch 45/75 - loss: 32046.1996 - acc: 0.8672
+Epoch 46/75 - loss: 31627.5566 - acc: 0.8687
+Epoch 47/75 - loss: 31228.1234 - acc: 0.8698
+Epoch 48/75 - loss: 30846.5072 - acc: 0.8710
+Epoch 49/75 - loss: 30481.5252 - acc: 0.8721
+Epoch 50/75 - loss: 30132.1861 - acc: 0.8730
+Epoch 51/75 - loss: 29797.4417 - acc: 0.8741
+Epoch 52/75 - loss: 29476.4986 - acc: 0.8750
+Epoch 53/75 - loss: 29168.3811 - acc: 0.8758
+Epoch 54/75 - loss: 28872.4349 - acc: 0.8767
+Epoch 55/75 - loss: 28587.9371 - acc: 0.8776
+Epoch 56/75 - loss: 28314.2709 - acc: 0.8784
+Epoch 57/75 - loss: 28050.7225 - acc: 0.8793
+Epoch 58/75 - loss: 27796.8310 - acc: 0.8801
+Epoch 59/75 - loss: 27552.0479 - acc: 0.8808
+Epoch 60/75 - loss: 27315.8496 - acc: 0.8816
+Epoch 61/75 - loss: 27087.7822 - acc: 0.8822
+Epoch 62/75 - loss: 26867.4438 - acc: 0.8829
+Epoch 63/75 - loss: 26654.5043 - acc: 0.8834
+Epoch 64/75 - loss: 26448.5684 - acc: 0.8840
+Epoch 65/75 - loss: 26249.2325 - acc: 0.8849
+Epoch 66/75 - loss: 26056.2143 - acc: 0.8855
+Epoch 67/75 - loss: 25869.1442 - acc: 0.8863
+Epoch 68/75 - loss: 25687.7101 - acc: 0.8869
+Epoch 69/75 - loss: 25511.7632 - acc: 0.8876
+Epoch 70/75 - loss: 25340.9962 - acc: 0.8881
+Epoch 71/75 - loss: 25175.1319 - acc: 0.8885
+Epoch 72/75 - loss: 25014.0458 - acc: 0.8890
+Epoch 73/75 - loss: 24857.4101 - acc: 0.8895
+Epoch 74/75 - loss: 24704.9976 - acc: 0.8898
+Epoch 75/75 - loss: 24556.6116 - acc: 0.8904
+</code></pre></div></div>
+
+<p><img src="output_4_1.png" alt="png" /></p>
+
+<p><img src="output_4_2.png" alt="png" /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Test Accuracy: 89.78%
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">NN</span><span class="p">.</span><span class="n">plot_confusion_matrix</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<p><img src="output_5_0.png" alt="png" /></p>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>This was a fun project where I created a 3-layer Neural-Net only using Numpy! The model performed very well. It finished with 89.78% accuracy! I found it very intresting that the model’s most common mistake was confusing 5’s for 3’s! The confusion matrix does confirm that model was very consistent on all numbers!</p>
+
+<p>Being able to see the model at such a low level allowed me to look at Neural Nets from a mathmatical standpoint which helped me understand the “Black-Box” in an insightful way! Matrix Multiplcations truly are incredible!</p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#numpy" class="page__taxonomy-item" rel="tag">Numpy</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#project" class="page__taxonomy-item" rel="tag">project</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#blog" class="page__taxonomy-item" rel="tag">blog</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2023-01-05T00:00:00-05:00">January 5, 2023</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=MNIST+From+Scratch+Using+NumPy%20http%3A%2F%2Flocalhost%3A4000%2Fblog%2FMNIST-WITH-NUMPY%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fblog%2FMNIST-WITH-NUMPY%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fblog%2FMNIST-WITH-NUMPY%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/studying-deep-learning/" class="pagination--pager" title="A Self-Created Curriculum
+">Previous</a>
+    
+    
+      <a href="/blog/AI-Resources/" class="pagination--pager" title="AI RESOURCES
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/Stock-Predcition/" rel="permalink">Stock Price Prediction of Apple with PyTorch
+</a>
+      
+    </h2>
+<!--
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  13 minute read
+
+</p>
+    
+-->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> June 20 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">LSTM and GRU
+
+</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/AI-Weeky/" rel="permalink">AI Evolution: Weekly News Digest
+</a>
+      
+    </h2>
+<!--
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  5 minute read
+
+</p>
+    
+-->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> June 18 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Introduction
+AI is revolutionizing various aspects of our daily lives, with new applications and advancements emerging every week. Here’s a roundup of some o...</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/study/pytorch-rnn/" rel="permalink">PyTorch RNN from Scratch
+</a>
+      
+    </h2>
+<!--
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  11 minute read
+
+</p>
+    
+-->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> June 09 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">In this post, we’ll take a look at RNNs, or recurrent neural networks, and attempt to implement parts of it in scratch through PyTorch. Yes, it’s not entirel...</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/AI-Resources/" rel="permalink">AI RESOURCES
+</a>
+      
+    </h2>
+<!--
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  2 minute read
+
+</p>
+    
+-->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> May 20 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Introduction
+AI is revolutionizing various aspects of our daily lives, with new applications and advancements emerging every week. Here’s a roundup of some o...</p>
+  </article>
+</div>
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+  </div>
+
+  
+  <div class="search-content">
+    <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+  </div>
+  
+
+  <div class="page__footer">
+    <footer>
+      <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+      <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/DLevin02" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/drewlevin-/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 Drew Levin. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+    </footer>
+  </div>
+
+  
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://kit.fontawesome.com/4eee35f757.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-154432000-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-154432000-1');
+</script>
+
+
+
+
+
+</body>
+
+</html>

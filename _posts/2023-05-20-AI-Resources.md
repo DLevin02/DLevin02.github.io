@@ -1,5 +1,5 @@
 ---
-title: "AI RESOURCES"
+title: "AI Resources"
 date: 2023-05-20
 mathjax: true
 toc: true

@@ -10,8 +10,6 @@ tags:
   - project
 ---
 
-# Credit Card Fraud Detection Using Random Forest
-
 ## Introduction:
 
 Credit card fraud is a significant concern in today's digital world, with substantial financial and security implications for individuals and financial institutions.

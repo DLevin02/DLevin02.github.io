@@ -10,8 +10,6 @@ tags:
   - project
 ---
 
-# Fake News Detection
-
 The problem at hand is called fake news detection. In the context of information technology and AI, "fake news" is misleading or false information presented as true news. With the rise of social media and online platforms, the spread of fake news has been prevalent. It can be harmful in many ways, like influencing public opinion based on false information or causing unnecessary panic and confusion among people.
 
 The AI technique used to solve this problem falls under the domain of Natural Language Processing (NLP) which is a subfield of artificial intelligence that focuses on the interaction between computers and humans using natural language. The goal of NLP is to read, decipher, understand, and make sense of human language in a valuable way.

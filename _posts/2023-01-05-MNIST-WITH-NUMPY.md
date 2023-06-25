@@ -10,8 +10,6 @@ tags:
   - project
 ---
 
-# MNIST From Scratch Using NumPy
-
 To gain a deeper understanding of what is happening in Neural Networks I decided I wanted to complete a project froms scratch without the help of Pytorch or Tensorflow. The best part about machine learning is the easiest way to learn is by training models! Therefore I am going to train as many as I possibly can throughout this journey to master Artifical Intelligence!
 
 This is the training process I will be going through:

@@ -176,7 +176,7 @@ plt.show()
 
 
     
-<img src="https://github.com/DLevin02/DLevin02.github.io/blob/main/assets/images/Creditcard3.png?raw=true" />        
+<img src="https://github.com/DLevin02/DLevin02.github.io/blob/main/assets/images/Creditcard1.png?raw=true" />        
 
     
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-06-28T10:43:16-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Drew Levin</title><subtitle>Hey there! My name is Drew, and I&apos;m a Senior at Wisconsin University.</subtitle><author><name>Drew Levin</name></author><entry><title type="html">AI Roundup: Advances, Scrutiny, and Future Projections</title><link href="http://localhost:4000/blog/AI-Weeky/" rel="alternate" type="text/html" title="AI Roundup: Advances, Scrutiny, and Future Projections" /><published>2023-06-25T00:00:00-04:00</published><updated>2023-06-25T00:00:00-04:00</updated><id>http://localhost:4000/blog/AI-Weeky</id><content type="html" xml:base="http://localhost:4000/blog/AI-Weeky/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-06-28T11:29:33-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Drew Levin</title><subtitle>Hey there! My name is Drew, and I&apos;m a Senior at Wisconsin University.</subtitle><author><name>Drew Levin</name></author><entry><title type="html">AI Roundup: Advances, Scrutiny, and Future Projections</title><link href="http://localhost:4000/blog/AI-Weeky/" rel="alternate" type="text/html" title="AI Roundup: Advances, Scrutiny, and Future Projections" /><published>2023-06-25T00:00:00-04:00</published><updated>2023-06-25T00:00:00-04:00</updated><id>http://localhost:4000/blog/AI-Weeky</id><content type="html" xml:base="http://localhost:4000/blog/AI-Weeky/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
 &lt;p&gt;Welcome to this week’s digest of AI news. We’ve seen significant strides in technology, with innovations like 3D dog reconstruction from a single image and the continued economic impact projections of generative AI. Yet, it’s not all smooth sailing as Google faces privacy hurdles in the EU, and legal practitioners grapple with the challenges posed by AI in law. Let’s delve into these stories and more as we explore the evolving landscape of artificial intelligence.&lt;/p&gt;
 
 &lt;p&gt;As a someone who has deeply involved in the 3D AI realm with make work on Heymesh.ai, it thrills me to witness such significant breakthroughs. We find ourselves at a crossroads in history, where regulation bears the potential to either impede or accelerate the progress of AI. Thus, it is of paramount importance that lawmakers make informed, thoughtful decisions, enabling both the safety and continued evolution of Artificial Intelligence.&lt;/p&gt;
@@ -2389,14 +2389,173 @@ The cost function in matrix form is:&lt;/p&gt;
 
 &lt;p&gt;Setting this equal to zero, we get:&lt;/p&gt;
 
-&lt;p&gt;`X^T * X * θ = X&lt;/p&gt;</content><author><name>Drew Levin</name></author><category term="blog" /><category term="study" /><category term="cs229" /><summary type="html">Introduction</summary></entry><entry><title type="html">A Self-Created Curriculum</title><link href="http://localhost:4000/blog/studying-deep-learning/" rel="alternate" type="text/html" title="A Self-Created Curriculum" /><published>2023-01-01T00:00:00-05:00</published><updated>2023-01-01T00:00:00-05:00</updated><id>http://localhost:4000/blog/studying-deep-learning</id><content type="html" xml:base="http://localhost:4000/blog/studying-deep-learning/">&lt;h1 id=&quot;my-machine-learning-journey&quot;&gt;My Machine Learning journey&lt;/h1&gt;
-&lt;p&gt;Welcome to my blog! I’m embarking on a journey to learn Machine Learning, and I’m excited to share my experiences here. Follow me as I explore the world of Machine Learning algorithms and technologies!&lt;/p&gt;
+&lt;p&gt;`X^T * X * θ = X&lt;/p&gt;</content><author><name>Drew Levin</name></author><category term="blog" /><category term="study" /><category term="cs229" /><summary type="html">Introduction</summary></entry><entry><title type="html">Math For Machine Learning Notes</title><link href="http://localhost:4000/blog/2023-Machine-Learning-Math-Review/" rel="alternate" type="text/html" title="Math For Machine Learning Notes" /><published>2023-01-03T00:00:00-05:00</published><updated>2023-01-03T00:00:00-05:00</updated><id>http://localhost:4000/blog/2023-Machine-Learning-Math-Review</id><content type="html" xml:base="http://localhost:4000/blog/2023-Machine-Learning-Math-Review/">&lt;h1 id=&quot;linear-algebra-review&quot;&gt;Linear Algebra Review&lt;/h1&gt;
 
-&lt;h1 id=&quot;my-first-steps&quot;&gt;My First Steps&lt;/h1&gt;
-&lt;p&gt;I’m starting my journey by exploring the fundamentals of Machine Learning. I’m brushing up on my math and programming skills, and I’m getting familiar with the different types of algorithms and techniques. I’m also reading up on the latest Machine Learning research.&lt;/p&gt;
+&lt;h2 id=&quot;1-vectors-and-matrices&quot;&gt;1. Vectors and Matrices&lt;/h2&gt;
+&lt;p&gt;Vectors and matrices are fundamental objects in linear algebra. A vector can be thought of as a list of numbers, and a matrix as a grid of numbers arranged in rows and columns. For example:&lt;/p&gt;
 
-&lt;h1 id=&quot;my-next-steps&quot;&gt;My Next Steps&lt;/h1&gt;
-&lt;p&gt;My next steps involve diving deeper into the various techniques and algorithms. I’m also exploring different types of Machine Learning tools and libraries, and I’m working on some basic projects to get hands-on experience.&lt;/p&gt;
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Vector: v = [1, 2, 3]
+Matrix: M = [1 2
+             3 4
+             5 6]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h1 id=&quot;update-01012023&quot;&gt;Update 01/01/2023:&lt;/h1&gt;
-&lt;p&gt;My first update: I have started this blog a little bit late as I am in the Sequential Models Course of Andrew Ngâ€™s Deep Learning Specialization. Today I got bored of watching lectures and wanted to code so I implemented MNIST with TensorFlow. I watched the first Stanford CS244N Lecuture on NLP and realized that I just need to write code so I went through a build a house price prediction model for a Kaggle Competition.&lt;/p&gt;</content><author><name>Drew Levin</name></author><category term="blog" /><category term="update" /><summary type="html">My Machine Learning journey Welcome to my blog! I’m embarking on a journey to learn Machine Learning, and I’m excited to share my experiences here. Follow me as I explore the world of Machine Learning algorithms and technologies!</summary></entry></feed>
+&lt;h2 id=&quot;2-matrix-operations&quot;&gt;2. Matrix Operations&lt;/h2&gt;
+
+&lt;h3 id=&quot;21-addition&quot;&gt;2.1 Addition&lt;/h3&gt;
+&lt;p&gt;We add two matrices by adding their corresponding entries:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[1 2]     [4 5]     [1+4 2+5]     [5 7]
+[3 4]  +  [6 7]  =  [3+6 4+7]  =  [9 11]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;22-subtraction&quot;&gt;2.2 Subtraction&lt;/h3&gt;
+&lt;p&gt;Similar to addition, we subtract two matrices by subtracting their corresponding entries:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[5 7]     [4 5]     [5-4 7-5]     [1 2]
+[9 11]  - [6 7]  =  [9-6 11-7] =  [3 4]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;23-multiplication&quot;&gt;2.3 Multiplication&lt;/h3&gt;
+&lt;p&gt;Multiplication is a bit more complex. You multiply the elements of the rows of the first matrix by the elements of the columns of the second, and then add them up.&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[1 2]     [5 6]     [(1*5+2*7) (1*6+2*8)]     [19 22]
+[3 4]  x  [7 8]  =  [(3*5+4*7) (3*6+4*8)]  =  [43 50]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;3-vector-spaces&quot;&gt;3. Vector Spaces&lt;/h2&gt;
+
+&lt;p&gt;A vector space is a set of vectors that can be added together and multiplied by scalars (real or complex numbers) in such a way that these operations obey certain axioms. For example, the set of all 2D vectors forms a vector space.&lt;/p&gt;
+
+&lt;h2 id=&quot;4-linear-transformations-and-matrices&quot;&gt;4. Linear Transformations and Matrices&lt;/h2&gt;
+
+&lt;p&gt;Linear transformations are a way of ‘transforming’ one vector into another while preserving the operations of addition and scalar multiplication. For example, scaling and rotating vectors are both linear transformations. Every linear transformation can be represented by a matrix. If &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;v&lt;/code&gt; is a vector and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt; is the matrix representing a linear transformation, the transformed vector is obtained by the matrix-vector product &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Av&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;5-eigenvalues-and-eigenvectors&quot;&gt;5. Eigenvalues and Eigenvectors&lt;/h2&gt;
+
+&lt;p&gt;Given a square matrix &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt;, if there is a non-zero vector &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;v&lt;/code&gt; such that multiplying &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt; by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;v&lt;/code&gt; gives a vector that’s a scaled version of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;v&lt;/code&gt;, then &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;v&lt;/code&gt; is an eigenvector of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt; and the scaling factor is the corresponding eigenvalue.&lt;/p&gt;
+
+&lt;p&gt;If &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Av = λv&lt;/code&gt;, then &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;v&lt;/code&gt; is an eigenvector of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;λ&lt;/code&gt; is the corresponding eigenvalue. For instance:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Let A = [4 1]
+         [2 3]
+
+Then, for v = [1]
+               [2]
+
+We have Av = [4*1 + 1*2]
+             [2*1 + 3*2]
+
+          = [6]
+            [8]
+
+which is 2*v, so λ = 2.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;6-diagonalization&quot;&gt;6. Diagonalization&lt;/h2&gt;
+
+&lt;p&gt;A matrix &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt; is diagonalizable if we can&lt;/p&gt;
+
+&lt;p&gt;write it as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A = PDP^(-1)&lt;/code&gt; where &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;D&lt;/code&gt; is a diagonal matrix, and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;P&lt;/code&gt; is a matrix whose columns are the eigenvectors of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;7-orthogonal-and-unitary-matrices&quot;&gt;7. Orthogonal and Unitary Matrices&lt;/h2&gt;
+
+&lt;p&gt;An orthogonal matrix is a square matrix whose columns and rows are orthogonal unit vectors (i.e., orthonormal vectors). Orthogonal matrices have a lovely property: the inverse of an orthogonal matrix is its transpose.&lt;/p&gt;
+
+&lt;h2 id=&quot;8-dot-product-and-norms&quot;&gt;8. Dot Product and Norms&lt;/h2&gt;
+
+&lt;p&gt;The dot product of two vectors &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;a = [a1, a2, ..., an]&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;b = [b1, b2, ..., bn]&lt;/code&gt; is defined as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;a1*b1 + a2*b2 + ... + an*bn&lt;/code&gt;.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;The norm of a vector &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;v&lt;/code&gt; (often interpreted as the length of the vector) is the square root of the dot product of the vector with itself, and is denoted as&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;v&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;9-projections&quot;&gt;9. Projections&lt;/h2&gt;
+
+&lt;p&gt;The projection of a vector &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;y&lt;/code&gt; onto another vector &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;x&lt;/code&gt; is the vector in the direction of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;x&lt;/code&gt; that best approximates &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;y&lt;/code&gt;. If &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;y&lt;/code&gt; is projected onto &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;x&lt;/code&gt; to get the projection vector &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;p&lt;/code&gt;, then &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;y - p&lt;/code&gt; is orthogonal to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;x&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;10-singular-value-decomposition-svd&quot;&gt;10. Singular Value Decomposition (SVD)&lt;/h2&gt;
+
+&lt;p&gt;Every matrix &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt; can be decomposed into the product of three matrices &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;U&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Σ&lt;/code&gt;, and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;V^T&lt;/code&gt;, where &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;U&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;V&lt;/code&gt; are orthogonal matrices and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Σ&lt;/code&gt; is a diagonal matrix. The diagonal entries of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Σ&lt;/code&gt; are the singular values of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;A&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;11-linear-systems-of-equations&quot;&gt;11. Linear Systems of Equations&lt;/h2&gt;
+
+&lt;p&gt;Many problems in linear algebra boil down to solving a system of linear equations, which can often be represented in matrix form as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Ax = b&lt;/code&gt;. Gaussian elimination and similar methods can be used to solve these systems.&lt;/p&gt;
+
+&lt;h1 id=&quot;probability-and-statistics-review&quot;&gt;Probability and Statistics Review&lt;/h1&gt;
+
+&lt;h2 id=&quot;1-probability-basics&quot;&gt;1. Probability Basics&lt;/h2&gt;
+
+&lt;h3 id=&quot;11-sample-space-and-events&quot;&gt;1.1 Sample Space and Events&lt;/h3&gt;
+&lt;p&gt;A sample space is the set of all possible outcomes of an experiment. An event is a subset of the sample space.&lt;/p&gt;
+
+&lt;h3 id=&quot;12-probability-of-an-event&quot;&gt;1.2 Probability of an Event&lt;/h3&gt;
+&lt;p&gt;The probability of an event A, denoted by P(A), is a number between 0 and 1 inclusive that measures the likelihood of the occurrence of the event.&lt;/p&gt;
+
+&lt;h3 id=&quot;13-probability-axioms&quot;&gt;1.3 Probability Axioms&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;For any event A, 0 &amp;lt;= P(A) &amp;lt;= 1.&lt;/li&gt;
+  &lt;li&gt;P(S) = 1, where S is the sample space.&lt;/li&gt;
+  &lt;li&gt;If A1, A2, A3, … are disjoint events, then P(A1 ∪ A2 ∪ A3 ∪ …) = P(A1) + P(A2) + P(A3) + …&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;2-conditional-probability&quot;&gt;2. Conditional Probability&lt;/h2&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Conditional probability is the probability of an event given that another event has occurred. If we denote A and B as two events, the conditional probability of A given that B has occurred is written as P(A&lt;/td&gt;
+      &lt;td&gt;B).&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;3-random-variables&quot;&gt;3. Random Variables&lt;/h2&gt;
+
+&lt;p&gt;A random variable is a function that assigns a real number to each outcome in a sample space.&lt;/p&gt;
+
+&lt;h2 id=&quot;4-probability-distributions&quot;&gt;4. Probability Distributions&lt;/h2&gt;
+
+&lt;p&gt;A probability distribution assigns a probability to each possible value of the random variable. A probability distribution is described by a probability density function (pdf) for continuous variables or a probability mass function (pmf) for discrete variables.&lt;/p&gt;
+
+&lt;h3 id=&quot;41-common-distributions&quot;&gt;4.1 Common Distributions&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Uniform Distribution&lt;/li&gt;
+  &lt;li&gt;Normal (Gaussian) Distribution&lt;/li&gt;
+  &lt;li&gt;Binomial Distribution&lt;/li&gt;
+  &lt;li&gt;Poisson Distribution&lt;/li&gt;
+  &lt;li&gt;Exponential Distribution&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;5-expected-value-and-variance&quot;&gt;5. Expected Value and Variance&lt;/h2&gt;
+
+&lt;p&gt;The expected value (mean) of a random variable is the long-run average value of the outcomes. The variance measures how spread out the values are around the expected value.&lt;/p&gt;
+
+&lt;h2 id=&quot;6-covariance-and-correlation&quot;&gt;6. Covariance and Correlation&lt;/h2&gt;
+
+&lt;p&gt;Covariance and correlation are measures of the relationship between two random variables. Correlation is a normalized form of covariance and provides a measure between -1 and 1 of how related two variables are.&lt;/p&gt;
+
+&lt;h2 id=&quot;7-hypothesis-testing&quot;&gt;7. Hypothesis Testing&lt;/h2&gt;
+
+&lt;p&gt;Hypothesis testing is a method for testing a claim or hypothesis about a parameter in a population, using data measured in a sample.&lt;/p&gt;
+
+&lt;h3 id=&quot;71-null-and-alternative-hypotheses&quot;&gt;7.1 Null and Alternative Hypotheses&lt;/h3&gt;
+&lt;p&gt;The null hypothesis (H0) is a statement about the population parameter that implies no effect or difference, while the alternative hypothesis (Ha) is the statement being tested.&lt;/p&gt;
+
+&lt;h3 id=&quot;72-p-value&quot;&gt;7.2 p-value&lt;/h3&gt;
+&lt;p&gt;The p-value is the probability of obtaining the observed data (or data more extreme) if the null hypothesis is true. A smaller p-value provides stronger evidence against the null hypothesis.&lt;/p&gt;
+
+&lt;h3 id=&quot;73-significance-level&quot;&gt;7.3 Significance Level&lt;/h3&gt;
+&lt;p&gt;The significance level (often denoted by α) is the probability of rejecting the null hypothesis when it is true. It’s a threshold used to determine when the null hypothesis can be rejected.&lt;/p&gt;
+
+&lt;h2 id=&quot;8-confidence-intervals&quot;&gt;8. Confidence Intervals&lt;/h2&gt;
+
+&lt;p&gt;A confidence interval provides an estimated range of values which is likely to include an unknown population parameter. The confidence level describes the uncertainty of this range.&lt;/p&gt;</content><author><name>Drew Levin</name></author><category term="blog" /><category term="study" /><category term="cs229" /><summary type="html">Linear Algebra Review</summary></entry></feed>

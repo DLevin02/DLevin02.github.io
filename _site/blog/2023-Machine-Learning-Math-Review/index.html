@@ -1,0 +1,755 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.3 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang=" en" class="no-js">
+
+<head>
+  <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Math For Machine Learning Notes - Drew Levin</title>
+<meta name="description" content="Linear Algebra Review">
+
+
+  <meta name="author" content="Drew Levin">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Drew Levin">
+<meta property="og:title" content="Math For Machine Learning Notes">
+<meta property="og:url" content="http://localhost:4000/blog/2023-Machine-Learning-Math-Review/">
+
+
+  <meta property="og:description" content="Linear Algebra Review">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2023-01-03T00:00:00-05:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/blog/2023-Machine-Learning-Math-Review/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml"
+  type="application/atom+xml" rel="alternate" title="Drew Levin Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css" id="theme_source">
+
+<link rel="stylesheet alternate" href="/assets/css/theme2.css" id="theme_source_2">
+<script>
+  let theme = sessionStorage.getItem('theme');
+  if (theme === "dark") {
+    sessionStorage.setItem('theme', 'dark');
+    node1 = document.getElementById('theme_source');
+    node2 = document.getElementById('theme_source_2');
+    node1.setAttribute('rel', 'stylesheet alternate');
+    node2.setAttribute('rel', 'stylesheet');
+  }
+  else {
+    sessionStorage.setItem('theme', 'light');
+  }
+</script>
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+  <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+</head>
+
+<body
+  class="layout--single">
+  <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+  <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+  
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Drew Levin
+          <span class="site-subtitle"></span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+            <a href="/posts/" >Posts</a>
+          </li><li class="masthead__menu-item">
+            <a href="/resume/" >Resume</a>
+          </li><li class="masthead__menu-item">
+            <a href="/categories/" >Categories</a>
+          </li><li class="masthead__menu-item">
+            <a href="/tags/" >Tags</a>
+          </li></ul>
+        
+        <i class="fas fa-fw fa-adjust" aria-hidden="true"
+          onclick="node1=document.getElementById('theme_source');node2=document.getElementById('theme_source_2');if(node1.getAttribute('rel')=='stylesheet'){node1.setAttribute('rel', 'stylesheet alternate'); node2.setAttribute('rel', 'stylesheet');sessionStorage.setItem('theme', 'dark');}else{node2.setAttribute('rel', 'stylesheet alternate'); node1.setAttribute('rel', 'stylesheet');sessionStorage.setItem('theme', 'light');} return false;"></i>
+        
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path
+              d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z"
+              transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+  <div class="initial-content">
+    
+
+
+
+<div id="main" role="main">
+  
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Math For Machine Learning Notes">
+    <meta itemprop="description" content="Linear Algebra Review">
+    <meta itemprop="datePublished" content="2023-01-03T00:00:00-05:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Math For Machine Learning Notes
+</h1>
+          
+            <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  5 minute read
+
+</p>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#linear-algebra-review">Linear Algebra Review</a>
+    <ul>
+      <li><a href="#1-vectors-and-matrices">1. Vectors and Matrices</a></li>
+      <li><a href="#2-matrix-operations">2. Matrix Operations</a>
+        <ul>
+          <li><a href="#21-addition">2.1 Addition</a></li>
+          <li><a href="#22-subtraction">2.2 Subtraction</a></li>
+          <li><a href="#23-multiplication">2.3 Multiplication</a></li>
+        </ul>
+      </li>
+      <li><a href="#3-vector-spaces">3. Vector Spaces</a></li>
+      <li><a href="#4-linear-transformations-and-matrices">4. Linear Transformations and Matrices</a></li>
+      <li><a href="#5-eigenvalues-and-eigenvectors">5. Eigenvalues and Eigenvectors</a></li>
+      <li><a href="#6-diagonalization">6. Diagonalization</a></li>
+      <li><a href="#7-orthogonal-and-unitary-matrices">7. Orthogonal and Unitary Matrices</a></li>
+      <li><a href="#8-dot-product-and-norms">8. Dot Product and Norms</a></li>
+      <li><a href="#9-projections">9. Projections</a></li>
+      <li><a href="#10-singular-value-decomposition-svd">10. Singular Value Decomposition (SVD)</a></li>
+      <li><a href="#11-linear-systems-of-equations">11. Linear Systems of Equations</a></li>
+    </ul>
+  </li>
+  <li><a href="#probability-and-statistics-review">Probability and Statistics Review</a>
+    <ul>
+      <li><a href="#1-probability-basics">1. Probability Basics</a>
+        <ul>
+          <li><a href="#11-sample-space-and-events">1.1 Sample Space and Events</a></li>
+          <li><a href="#12-probability-of-an-event">1.2 Probability of an Event</a></li>
+          <li><a href="#13-probability-axioms">1.3 Probability Axioms</a></li>
+        </ul>
+      </li>
+      <li><a href="#2-conditional-probability">2. Conditional Probability</a></li>
+      <li><a href="#3-random-variables">3. Random Variables</a></li>
+      <li><a href="#4-probability-distributions">4. Probability Distributions</a>
+        <ul>
+          <li><a href="#41-common-distributions">4.1 Common Distributions</a></li>
+        </ul>
+      </li>
+      <li><a href="#5-expected-value-and-variance">5. Expected Value and Variance</a></li>
+      <li><a href="#6-covariance-and-correlation">6. Covariance and Correlation</a></li>
+      <li><a href="#7-hypothesis-testing">7. Hypothesis Testing</a>
+        <ul>
+          <li><a href="#71-null-and-alternative-hypotheses">7.1 Null and Alternative Hypotheses</a></li>
+          <li><a href="#72-p-value">7.2 p-value</a></li>
+          <li><a href="#73-significance-level">7.3 Significance Level</a></li>
+        </ul>
+      </li>
+      <li><a href="#8-confidence-intervals">8. Confidence Intervals</a></li>
+    </ul>
+  </li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <h1 id="linear-algebra-review">Linear Algebra Review</h1>
+
+<h2 id="1-vectors-and-matrices">1. Vectors and Matrices</h2>
+<p>Vectors and matrices are fundamental objects in linear algebra. A vector can be thought of as a list of numbers, and a matrix as a grid of numbers arranged in rows and columns. For example:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Vector: v = [1, 2, 3]
+Matrix: M = [1 2
+             3 4
+             5 6]
+</code></pre></div></div>
+
+<h2 id="2-matrix-operations">2. Matrix Operations</h2>
+
+<h3 id="21-addition">2.1 Addition</h3>
+<p>We add two matrices by adding their corresponding entries:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1 2]     [4 5]     [1+4 2+5]     [5 7]
+[3 4]  +  [6 7]  =  [3+6 4+7]  =  [9 11]
+</code></pre></div></div>
+
+<h3 id="22-subtraction">2.2 Subtraction</h3>
+<p>Similar to addition, we subtract two matrices by subtracting their corresponding entries:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[5 7]     [4 5]     [5-4 7-5]     [1 2]
+[9 11]  - [6 7]  =  [9-6 11-7] =  [3 4]
+</code></pre></div></div>
+
+<h3 id="23-multiplication">2.3 Multiplication</h3>
+<p>Multiplication is a bit more complex. You multiply the elements of the rows of the first matrix by the elements of the columns of the second, and then add them up.</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[1 2]     [5 6]     [(1*5+2*7) (1*6+2*8)]     [19 22]
+[3 4]  x  [7 8]  =  [(3*5+4*7) (3*6+4*8)]  =  [43 50]
+</code></pre></div></div>
+
+<h2 id="3-vector-spaces">3. Vector Spaces</h2>
+
+<p>A vector space is a set of vectors that can be added together and multiplied by scalars (real or complex numbers) in such a way that these operations obey certain axioms. For example, the set of all 2D vectors forms a vector space.</p>
+
+<h2 id="4-linear-transformations-and-matrices">4. Linear Transformations and Matrices</h2>
+
+<p>Linear transformations are a way of ‘transforming’ one vector into another while preserving the operations of addition and scalar multiplication. For example, scaling and rotating vectors are both linear transformations. Every linear transformation can be represented by a matrix. If <code class="language-plaintext highlighter-rouge">v</code> is a vector and <code class="language-plaintext highlighter-rouge">A</code> is the matrix representing a linear transformation, the transformed vector is obtained by the matrix-vector product <code class="language-plaintext highlighter-rouge">Av</code>.</p>
+
+<h2 id="5-eigenvalues-and-eigenvectors">5. Eigenvalues and Eigenvectors</h2>
+
+<p>Given a square matrix <code class="language-plaintext highlighter-rouge">A</code>, if there is a non-zero vector <code class="language-plaintext highlighter-rouge">v</code> such that multiplying <code class="language-plaintext highlighter-rouge">A</code> by <code class="language-plaintext highlighter-rouge">v</code> gives a vector that’s a scaled version of <code class="language-plaintext highlighter-rouge">v</code>, then <code class="language-plaintext highlighter-rouge">v</code> is an eigenvector of <code class="language-plaintext highlighter-rouge">A</code> and the scaling factor is the corresponding eigenvalue.</p>
+
+<p>If <code class="language-plaintext highlighter-rouge">Av = λv</code>, then <code class="language-plaintext highlighter-rouge">v</code> is an eigenvector of <code class="language-plaintext highlighter-rouge">A</code> and <code class="language-plaintext highlighter-rouge">λ</code> is the corresponding eigenvalue. For instance:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Let A = [4 1]
+         [2 3]
+
+Then, for v = [1]
+               [2]
+
+We have Av = [4*1 + 1*2]
+             [2*1 + 3*2]
+
+          = [6]
+            [8]
+
+which is 2*v, so λ = 2.
+</code></pre></div></div>
+
+<h2 id="6-diagonalization">6. Diagonalization</h2>
+
+<p>A matrix <code class="language-plaintext highlighter-rouge">A</code> is diagonalizable if we can</p>
+
+<p>write it as <code class="language-plaintext highlighter-rouge">A = PDP^(-1)</code> where <code class="language-plaintext highlighter-rouge">D</code> is a diagonal matrix, and <code class="language-plaintext highlighter-rouge">P</code> is a matrix whose columns are the eigenvectors of <code class="language-plaintext highlighter-rouge">A</code>.</p>
+
+<h2 id="7-orthogonal-and-unitary-matrices">7. Orthogonal and Unitary Matrices</h2>
+
+<p>An orthogonal matrix is a square matrix whose columns and rows are orthogonal unit vectors (i.e., orthonormal vectors). Orthogonal matrices have a lovely property: the inverse of an orthogonal matrix is its transpose.</p>
+
+<h2 id="8-dot-product-and-norms">8. Dot Product and Norms</h2>
+
+<p>The dot product of two vectors <code class="language-plaintext highlighter-rouge">a = [a1, a2, ..., an]</code> and <code class="language-plaintext highlighter-rouge">b = [b1, b2, ..., bn]</code> is defined as <code class="language-plaintext highlighter-rouge">a1*b1 + a2*b2 + ... + an*bn</code>.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>The norm of a vector <code class="language-plaintext highlighter-rouge">v</code> (often interpreted as the length of the vector) is the square root of the dot product of the vector with itself, and is denoted as</td>
+      <td> </td>
+      <td>v</td>
+      <td> </td>
+      <td>.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="9-projections">9. Projections</h2>
+
+<p>The projection of a vector <code class="language-plaintext highlighter-rouge">y</code> onto another vector <code class="language-plaintext highlighter-rouge">x</code> is the vector in the direction of <code class="language-plaintext highlighter-rouge">x</code> that best approximates <code class="language-plaintext highlighter-rouge">y</code>. If <code class="language-plaintext highlighter-rouge">y</code> is projected onto <code class="language-plaintext highlighter-rouge">x</code> to get the projection vector <code class="language-plaintext highlighter-rouge">p</code>, then <code class="language-plaintext highlighter-rouge">y - p</code> is orthogonal to <code class="language-plaintext highlighter-rouge">x</code>.</p>
+
+<h2 id="10-singular-value-decomposition-svd">10. Singular Value Decomposition (SVD)</h2>
+
+<p>Every matrix <code class="language-plaintext highlighter-rouge">A</code> can be decomposed into the product of three matrices <code class="language-plaintext highlighter-rouge">U</code>, <code class="language-plaintext highlighter-rouge">Σ</code>, and <code class="language-plaintext highlighter-rouge">V^T</code>, where <code class="language-plaintext highlighter-rouge">U</code> and <code class="language-plaintext highlighter-rouge">V</code> are orthogonal matrices and <code class="language-plaintext highlighter-rouge">Σ</code> is a diagonal matrix. The diagonal entries of <code class="language-plaintext highlighter-rouge">Σ</code> are the singular values of <code class="language-plaintext highlighter-rouge">A</code>.</p>
+
+<h2 id="11-linear-systems-of-equations">11. Linear Systems of Equations</h2>
+
+<p>Many problems in linear algebra boil down to solving a system of linear equations, which can often be represented in matrix form as <code class="language-plaintext highlighter-rouge">Ax = b</code>. Gaussian elimination and similar methods can be used to solve these systems.</p>
+
+<h1 id="probability-and-statistics-review">Probability and Statistics Review</h1>
+
+<h2 id="1-probability-basics">1. Probability Basics</h2>
+
+<h3 id="11-sample-space-and-events">1.1 Sample Space and Events</h3>
+<p>A sample space is the set of all possible outcomes of an experiment. An event is a subset of the sample space.</p>
+
+<h3 id="12-probability-of-an-event">1.2 Probability of an Event</h3>
+<p>The probability of an event A, denoted by P(A), is a number between 0 and 1 inclusive that measures the likelihood of the occurrence of the event.</p>
+
+<h3 id="13-probability-axioms">1.3 Probability Axioms</h3>
+<ul>
+  <li>For any event A, 0 &lt;= P(A) &lt;= 1.</li>
+  <li>P(S) = 1, where S is the sample space.</li>
+  <li>If A1, A2, A3, … are disjoint events, then P(A1 ∪ A2 ∪ A3 ∪ …) = P(A1) + P(A2) + P(A3) + …</li>
+</ul>
+
+<h2 id="2-conditional-probability">2. Conditional Probability</h2>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Conditional probability is the probability of an event given that another event has occurred. If we denote A and B as two events, the conditional probability of A given that B has occurred is written as P(A</td>
+      <td>B).</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="3-random-variables">3. Random Variables</h2>
+
+<p>A random variable is a function that assigns a real number to each outcome in a sample space.</p>
+
+<h2 id="4-probability-distributions">4. Probability Distributions</h2>
+
+<p>A probability distribution assigns a probability to each possible value of the random variable. A probability distribution is described by a probability density function (pdf) for continuous variables or a probability mass function (pmf) for discrete variables.</p>
+
+<h3 id="41-common-distributions">4.1 Common Distributions</h3>
+<ul>
+  <li>Uniform Distribution</li>
+  <li>Normal (Gaussian) Distribution</li>
+  <li>Binomial Distribution</li>
+  <li>Poisson Distribution</li>
+  <li>Exponential Distribution</li>
+</ul>
+
+<h2 id="5-expected-value-and-variance">5. Expected Value and Variance</h2>
+
+<p>The expected value (mean) of a random variable is the long-run average value of the outcomes. The variance measures how spread out the values are around the expected value.</p>
+
+<h2 id="6-covariance-and-correlation">6. Covariance and Correlation</h2>
+
+<p>Covariance and correlation are measures of the relationship between two random variables. Correlation is a normalized form of covariance and provides a measure between -1 and 1 of how related two variables are.</p>
+
+<h2 id="7-hypothesis-testing">7. Hypothesis Testing</h2>
+
+<p>Hypothesis testing is a method for testing a claim or hypothesis about a parameter in a population, using data measured in a sample.</p>
+
+<h3 id="71-null-and-alternative-hypotheses">7.1 Null and Alternative Hypotheses</h3>
+<p>The null hypothesis (H0) is a statement about the population parameter that implies no effect or difference, while the alternative hypothesis (Ha) is the statement being tested.</p>
+
+<h3 id="72-p-value">7.2 p-value</h3>
+<p>The p-value is the probability of obtaining the observed data (or data more extreme) if the null hypothesis is true. A smaller p-value provides stronger evidence against the null hypothesis.</p>
+
+<h3 id="73-significance-level">7.3 Significance Level</h3>
+<p>The significance level (often denoted by α) is the probability of rejecting the null hypothesis when it is true. It’s a threshold used to determine when the null hypothesis can be rejected.</p>
+
+<h2 id="8-confidence-intervals">8. Confidence Intervals</h2>
+
+<p>A confidence interval provides an estimated range of values which is likely to include an unknown population parameter. The confidence level describes the uncertainty of this range.</p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#cs229" class="page__taxonomy-item" rel="tag">cs229</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#study" class="page__taxonomy-item" rel="tag">study</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#blog" class="page__taxonomy-item" rel="tag">blog</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2023-01-03T00:00:00-05:00">January 3, 2023</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Math+For+Machine+Learning+Notes%20http%3A%2F%2Flocalhost%3A4000%2Fblog%2F2023-Machine-Learning-Math-Review%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fblog%2F2023-Machine-Learning-Math-Review%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fblog%2F2023-Machine-Learning-Math-Review%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/studying-deep-learning/" class="pagination--pager" title="A Self-Created Curriculum
+">Previous</a>
+    
+    
+      <a href="/blog/CS229-Lecture1/" class="pagination--pager" title="Stanford CS229:  Linear Regression and Gradient Descent
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/AI-Weeky/" rel="permalink">AI Roundup: Advances, Scrutiny, and Future Projections
+</a>
+      
+    </h2>
+<!--
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  6 minute read
+
+</p>
+    
+-->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> June 25 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Introduction
+Welcome to this week’s digest of AI news. We’ve seen significant strides in technology, with innovations like 3D dog reconstruction from a singl...</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/Stock-Predcition/" rel="permalink">Stock Price Prediction of Apple with PyTorch
+</a>
+      
+    </h2>
+<!--
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  13 minute read
+
+</p>
+    
+-->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> June 20 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">LSTM and GRU
+
+</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/AI-Weeky/" rel="permalink">AI Evolution: Weekly News Digest
+</a>
+      
+    </h2>
+<!--
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  5 minute read
+
+</p>
+    
+-->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> June 18 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Introduction
+AI is revolutionizing various aspects of our daily lives, with new applications and advancements emerging every week. Here’s a roundup of some o...</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/study/pytorch-rnn/" rel="permalink">PyTorch RNN from Scratch
+</a>
+      
+    </h2>
+<!--
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  11 minute read
+
+</p>
+    
+-->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> June 09 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">In this post, we’ll take a look at RNNs, or recurrent neural networks, and attempt to implement parts of it in scratch through PyTorch. Yes, it’s not entirel...</p>
+  </article>
+</div>
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+  </div>
+
+  
+  <div class="search-content">
+    <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+  </div>
+  
+
+  <div class="page__footer">
+    <footer>
+      <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+      <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/DLevin02" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/drewlevin-/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 Drew Levin. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+    </footer>
+  </div>
+
+  
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://kit.fontawesome.com/4eee35f757.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-154432000-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-154432000-1');
+</script>
+
+
+
+
+
+</body>
+
+</html>

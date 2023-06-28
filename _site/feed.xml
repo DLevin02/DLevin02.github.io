@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-06-27T10:00:17-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Drew Levin</title><subtitle>Hey there! My name is Drew, and I&apos;m a Senior at Wisconsin University.</subtitle><author><name>Drew Levin</name></author><entry><title type="html">AI Roundup: Advances, Scrutiny, and Future Projections</title><link href="http://localhost:4000/blog/AI-Weeky/" rel="alternate" type="text/html" title="AI Roundup: Advances, Scrutiny, and Future Projections" /><published>2023-06-25T00:00:00-04:00</published><updated>2023-06-25T00:00:00-04:00</updated><id>http://localhost:4000/blog/AI-Weeky</id><content type="html" xml:base="http://localhost:4000/blog/AI-Weeky/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-06-28T10:43:16-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Drew Levin</title><subtitle>Hey there! My name is Drew, and I&apos;m a Senior at Wisconsin University.</subtitle><author><name>Drew Levin</name></author><entry><title type="html">AI Roundup: Advances, Scrutiny, and Future Projections</title><link href="http://localhost:4000/blog/AI-Weeky/" rel="alternate" type="text/html" title="AI Roundup: Advances, Scrutiny, and Future Projections" /><published>2023-06-25T00:00:00-04:00</published><updated>2023-06-25T00:00:00-04:00</updated><id>http://localhost:4000/blog/AI-Weeky</id><content type="html" xml:base="http://localhost:4000/blog/AI-Weeky/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
 &lt;p&gt;Welcome to this week’s digest of AI news. We’ve seen significant strides in technology, with innovations like 3D dog reconstruction from a single image and the continued economic impact projections of generative AI. Yet, it’s not all smooth sailing as Google faces privacy hurdles in the EU, and legal practitioners grapple with the challenges posed by AI in law. Let’s delve into these stories and more as we explore the evolving landscape of artificial intelligence.&lt;/p&gt;
 
 &lt;p&gt;As a someone who has deeply involved in the 3D AI realm with make work on Heymesh.ai, it thrills me to witness such significant breakthroughs. We find ourselves at a crossroads in history, where regulation bears the potential to either impede or accelerate the progress of AI. Thus, it is of paramount importance that lawmakers make informed, thoughtful decisions, enabling both the safety and continued evolution of Artificial Intelligence.&lt;/p&gt;
@@ -2314,7 +2314,82 @@ Epoch 75/75 - loss: 24556.6116 - acc: 0.8904
 
 &lt;p&gt;This was a fun project where I created a 3-layer Neural-Net only using Numpy! The model performed very well. It finished with 89.78% accuracy! I found it very intresting that the model’s most common mistake was confusing 5’s for 3’s! The confusion matrix does confirm that model was very consistent on all numbers!&lt;/p&gt;
 
-&lt;p&gt;Being able to see the model at such a low level allowed me to look at Neural Nets from a mathmatical standpoint which helped me understand the “Black-Box” in an insightful way! Matrix Multiplcations truly are incredible!&lt;/p&gt;</content><author><name>Drew Levin</name></author><category term="blog" /><category term="Numpy" /><category term="project" /><summary type="html">To gain a deeper understanding of what is happening in Neural Networks I decided I wanted to complete a project froms scratch without the help of Pytorch or Tensorflow. The best part about machine learning is the easiest way to learn is by training models! Therefore I am going to train as many as I possibly can throughout this journey to master Artifical Intelligence!</summary></entry><entry><title type="html">A Self-Created Curriculum</title><link href="http://localhost:4000/blog/studying-deep-learning/" rel="alternate" type="text/html" title="A Self-Created Curriculum" /><published>2023-01-01T00:00:00-05:00</published><updated>2023-01-01T00:00:00-05:00</updated><id>http://localhost:4000/blog/studying-deep-learning</id><content type="html" xml:base="http://localhost:4000/blog/studying-deep-learning/">&lt;h1 id=&quot;my-machine-learning-journey&quot;&gt;My Machine Learning journey&lt;/h1&gt;
+&lt;p&gt;Being able to see the model at such a low level allowed me to look at Neural Nets from a mathmatical standpoint which helped me understand the “Black-Box” in an insightful way! Matrix Multiplcations truly are incredible!&lt;/p&gt;</content><author><name>Drew Levin</name></author><category term="blog" /><category term="Numpy" /><category term="project" /><summary type="html">To gain a deeper understanding of what is happening in Neural Networks I decided I wanted to complete a project froms scratch without the help of Pytorch or Tensorflow. The best part about machine learning is the easiest way to learn is by training models! Therefore I am going to train as many as I possibly can throughout this journey to master Artifical Intelligence!</summary></entry><entry><title type="html">Stanford CS229: Linear Regression and Gradient Descent</title><link href="http://localhost:4000/blog/CS229-Lecture1/" rel="alternate" type="text/html" title="Stanford CS229: Linear Regression and Gradient Descent" /><published>2023-01-05T00:00:00-05:00</published><updated>2023-01-05T00:00:00-05:00</updated><id>http://localhost:4000/blog/CS229-Lecture1</id><content type="html" xml:base="http://localhost:4000/blog/CS229-Lecture1/">&lt;h1 id=&quot;introduction&quot;&gt;Introduction&lt;/h1&gt;
+
+&lt;p&gt;I have recently starting taking CS229 with Andrew Ng through Stanford. This is a course that can take you to the moon if done correctly. With that being said I want to document everything I learn and take it to the next level by doing further research and gaining deeper understanding.&lt;/p&gt;
+
+&lt;h2 id=&quot;linear-regression&quot;&gt;Linear Regression:&lt;/h2&gt;
+
+&lt;p&gt;In the context of machine learning, linear regression uses a set of input features (X1, X2, …, Xn) to predict a continuous output variable Y.&lt;/p&gt;
+
+&lt;p&gt;The equation for multiple linear regression is:&lt;/p&gt;
+
+&lt;p&gt;Y = θ0 + θ1&lt;em&gt;X1 + θ2&lt;/em&gt;X2 + … + θn*Xn + e&lt;/p&gt;
+
+&lt;p&gt;Y = Output variable
+θ0, θ1, …, θn = Parameters of the model
+X1, X2, …, Xn = Input features
+e = error term&lt;/p&gt;
+
+&lt;h2 id=&quot;cost-function&quot;&gt;Cost Function:&lt;/h2&gt;
+
+&lt;p&gt;Linear regression typically uses a cost function called Mean Squared Error (MSE) to measure the error in the model’s predictions. The goal of linear regression is to find the parameters θ that minimize the cost function.&lt;/p&gt;
+
+&lt;p&gt;The cost function J(θ) for linear regression is:&lt;/p&gt;
+
+&lt;p&gt;J(θ) = 1/2m Σ (hθ(xi) - yi)^2&lt;/p&gt;
+
+&lt;p&gt;where:&lt;/p&gt;
+
+&lt;p&gt;m is the number of training examples
+hθ(xi) is the predicted output for the ith training example using the current parameters θ
+yi is the actual output for the ith training example&lt;/p&gt;
+
+&lt;h2 id=&quot;gradient-descent&quot;&gt;Gradient Descent:&lt;/h2&gt;
+
+&lt;p&gt;Gradient Descent is an optimization algorithm used to minimize the cost function. It iteratively adjusts the parameters θ in the direction that reduces the cost function the most, until the cost function converges to a minimum.&lt;/p&gt;
+
+&lt;p&gt;The update rule for the gradient descent is:&lt;/p&gt;
+
+&lt;p&gt;θj := θj - α * ∂/∂θj J(θ)&lt;/p&gt;
+
+&lt;p&gt;where:&lt;/p&gt;
+
+&lt;p&gt;α is the learning rate, determining the step size in each iteration
+∂/∂θj J(θ) is the partial derivative of the cost function with respect to the parameter θj
+The partial derivative of the cost function with respect to a parameter θj is:&lt;/p&gt;
+
+&lt;p&gt;∂/∂θj J(θ) = 1/m * Σ (hθ(xi) - yi) * xij&lt;/p&gt;
+
+&lt;p&gt;Therefore, the update rule becomes:&lt;/p&gt;
+
+&lt;p&gt;θj := θj - α * 1/m * Σ (hθ(xi) - yi) * xij&lt;/p&gt;
+
+&lt;p&gt;Here, α is the learning rate, which controls how large a step we take in each iteration.&lt;/p&gt;
+
+&lt;h2 id=&quot;normal-equation&quot;&gt;Normal Equation:&lt;/h2&gt;
+
+&lt;p&gt;The Normal Equation is an analytical approach to linear regression that can be used to find the values of the parameters θ that minimize the cost function. Unlike gradient descent, this method does not require choosing a learning rate α, and it does not require many iterations since it directly computes the solution.&lt;/p&gt;
+
+&lt;p&gt;The normal equation is:&lt;/p&gt;
+
+&lt;p&gt;θ = (X^T * X)^-1 * X^T * y&lt;/p&gt;
+
+&lt;p&gt;where:&lt;/p&gt;
+
+&lt;p&gt;X is the matrix of input features
+y is the vector of output variables
+The cost function in matrix form is:&lt;/p&gt;
+
+&lt;p&gt;J(θ) = 1/2 * (Xθ - y)^T * (Xθ - y)&lt;/p&gt;
+
+&lt;p&gt;We can differentiate this with respect to θ:&lt;/p&gt;
+
+&lt;p&gt;∂/∂θ J(θ) = X^T * (Xθ - y)&lt;/p&gt;
+
+&lt;p&gt;Setting this equal to zero, we get:&lt;/p&gt;
+
+&lt;p&gt;`X^T * X * θ = X&lt;/p&gt;</content><author><name>Drew Levin</name></author><category term="blog" /><category term="study" /><category term="cs229" /><summary type="html">Introduction</summary></entry><entry><title type="html">A Self-Created Curriculum</title><link href="http://localhost:4000/blog/studying-deep-learning/" rel="alternate" type="text/html" title="A Self-Created Curriculum" /><published>2023-01-01T00:00:00-05:00</published><updated>2023-01-01T00:00:00-05:00</updated><id>http://localhost:4000/blog/studying-deep-learning</id><content type="html" xml:base="http://localhost:4000/blog/studying-deep-learning/">&lt;h1 id=&quot;my-machine-learning-journey&quot;&gt;My Machine Learning journey&lt;/h1&gt;
 &lt;p&gt;Welcome to my blog! I’m embarking on a journey to learn Machine Learning, and I’m excited to share my experiences here. Follow me as I explore the world of Machine Learning algorithms and technologies!&lt;/p&gt;
 
 &lt;h1 id=&quot;my-first-steps&quot;&gt;My First Steps&lt;/h1&gt;

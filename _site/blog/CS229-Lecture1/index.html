@@ -10,8 +10,8 @@
 <head>
   <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>A Self-Created Curriculum - Drew Levin</title>
-<meta name="description" content="My Machine Learning journey Welcome to my blog! I’m embarking on a journey to learn Machine Learning, and I’m excited to share my experiences here. Follow me as I explore the world of Machine Learning algorithms and technologies!">
+<!-- begin _includes/seo.html --><title>Stanford CS229:  Linear Regression and Gradient Descent - Drew Levin</title>
+<meta name="description" content="Introduction">
 
 
   <meta name="author" content="Drew Levin">
@@ -20,26 +20,26 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Drew Levin">
-<meta property="og:title" content="A Self-Created Curriculum">
-<meta property="og:url" content="http://localhost:4000/blog/studying-deep-learning/">
+<meta property="og:title" content="Stanford CS229:  Linear Regression and Gradient Descent">
+<meta property="og:url" content="http://localhost:4000/blog/CS229-Lecture1/">
 
 
-  <meta property="og:description" content="My Machine Learning journey Welcome to my blog! I’m embarking on a journey to learn Machine Learning, and I’m excited to share my experiences here. Follow me as I explore the world of Machine Learning algorithms and technologies!">
-
-
-
-
-
-
-
-  <meta property="article:published_time" content="2023-01-01T00:00:00-05:00">
+  <meta property="og:description" content="Introduction">
 
 
 
 
 
 
-<link rel="canonical" href="http://localhost:4000/blog/studying-deep-learning/">
+
+  <meta property="article:published_time" content="2023-01-05T00:00:00-05:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/blog/CS229-Lecture1/">
 
 
 
@@ -114,6 +114,19 @@
 <!-- end custom head snippets -->
 
   
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
 </head>
 
 <body
@@ -185,15 +198,15 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="A Self-Created Curriculum">
-    <meta itemprop="description" content="My Machine Learning journeyWelcome to my blog! I’m embarking on a journey to learn Machine Learning, and I’m excited to share my experiences here. Follow me as I explore the world of Machine Learning algorithms and technologies!">
-    <meta itemprop="datePublished" content="2023-01-01T00:00:00-05:00">
+    <meta itemprop="headline" content="Stanford CS229:  Linear Regression and Gradient Descent">
+    <meta itemprop="description" content="Introduction">
+    <meta itemprop="datePublished" content="2023-01-05T00:00:00-05:00">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">A Self-Created Curriculum
+          <h1 id="page-title" class="page__title" itemprop="headline">Stanford CS229:  Linear Regression and Gradient Descent
 </h1>
           
             <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
@@ -201,7 +214,7 @@
 
 
 
-  less than 1 minute read
+  2 minute read
 
 </p>
           
@@ -210,17 +223,100 @@
 
       <section class="page__content" itemprop="text">
         
-        <h1 id="my-machine-learning-journey">My Machine Learning journey</h1>
-<p>Welcome to my blog! I’m embarking on a journey to learn Machine Learning, and I’m excited to share my experiences here. Follow me as I explore the world of Machine Learning algorithms and technologies!</p>
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#introduction">Introduction</a>
+    <ul>
+      <li><a href="#linear-regression">Linear Regression:</a></li>
+      <li><a href="#cost-function">Cost Function:</a></li>
+      <li><a href="#gradient-descent">Gradient Descent:</a></li>
+      <li><a href="#normal-equation">Normal Equation:</a></li>
+    </ul>
+  </li>
+</ul>
 
-<h1 id="my-first-steps">My First Steps</h1>
-<p>I’m starting my journey by exploring the fundamentals of Machine Learning. I’m brushing up on my math and programming skills, and I’m getting familiar with the different types of algorithms and techniques. I’m also reading up on the latest Machine Learning research.</p>
+            </nav>
+          </aside>
+        
+        <h1 id="introduction">Introduction</h1>
 
-<h1 id="my-next-steps">My Next Steps</h1>
-<p>My next steps involve diving deeper into the various techniques and algorithms. I’m also exploring different types of Machine Learning tools and libraries, and I’m working on some basic projects to get hands-on experience.</p>
+<p>I have recently starting taking CS229 with Andrew Ng through Stanford. This is a course that can take you to the moon if done correctly. With that being said I want to document everything I learn and take it to the next level by doing further research and gaining deeper understanding.</p>
 
-<h1 id="update-01012023">Update 01/01/2023:</h1>
-<p>My first update: I have started this blog a little bit late as I am in the Sequential Models Course of Andrew Ngâ€™s Deep Learning Specialization. Today I got bored of watching lectures and wanted to code so I implemented MNIST with TensorFlow. I watched the first Stanford CS244N Lecuture on NLP and realized that I just need to write code so I went through a build a house price prediction model for a Kaggle Competition.</p>
+<h2 id="linear-regression">Linear Regression:</h2>
+
+<p>In the context of machine learning, linear regression uses a set of input features (X1, X2, …, Xn) to predict a continuous output variable Y.</p>
+
+<p>The equation for multiple linear regression is:</p>
+
+<p>Y = θ0 + θ1<em>X1 + θ2</em>X2 + … + θn*Xn + e</p>
+
+<p>Y = Output variable
+θ0, θ1, …, θn = Parameters of the model
+X1, X2, …, Xn = Input features
+e = error term</p>
+
+<h2 id="cost-function">Cost Function:</h2>
+
+<p>Linear regression typically uses a cost function called Mean Squared Error (MSE) to measure the error in the model’s predictions. The goal of linear regression is to find the parameters θ that minimize the cost function.</p>
+
+<p>The cost function J(θ) for linear regression is:</p>
+
+<p>J(θ) = 1/2m Σ (hθ(xi) - yi)^2</p>
+
+<p>where:</p>
+
+<p>m is the number of training examples
+hθ(xi) is the predicted output for the ith training example using the current parameters θ
+yi is the actual output for the ith training example</p>
+
+<h2 id="gradient-descent">Gradient Descent:</h2>
+
+<p>Gradient Descent is an optimization algorithm used to minimize the cost function. It iteratively adjusts the parameters θ in the direction that reduces the cost function the most, until the cost function converges to a minimum.</p>
+
+<p>The update rule for the gradient descent is:</p>
+
+<p>θj := θj - α * ∂/∂θj J(θ)</p>
+
+<p>where:</p>
+
+<p>α is the learning rate, determining the step size in each iteration
+∂/∂θj J(θ) is the partial derivative of the cost function with respect to the parameter θj
+The partial derivative of the cost function with respect to a parameter θj is:</p>
+
+<p>∂/∂θj J(θ) = 1/m * Σ (hθ(xi) - yi) * xij</p>
+
+<p>Therefore, the update rule becomes:</p>
+
+<p>θj := θj - α * 1/m * Σ (hθ(xi) - yi) * xij</p>
+
+<p>Here, α is the learning rate, which controls how large a step we take in each iteration.</p>
+
+<h2 id="normal-equation">Normal Equation:</h2>
+
+<p>The Normal Equation is an analytical approach to linear regression that can be used to find the values of the parameters θ that minimize the cost function. Unlike gradient descent, this method does not require choosing a learning rate α, and it does not require many iterations since it directly computes the solution.</p>
+
+<p>The normal equation is:</p>
+
+<p>θ = (X^T * X)^-1 * X^T * y</p>
+
+<p>where:</p>
+
+<p>X is the matrix of input features
+y is the vector of output variables
+The cost function in matrix form is:</p>
+
+<p>J(θ) = 1/2 * (Xθ - y)^T * (Xθ - y)</p>
+
+<p>We can differentiate this with respect to θ:</p>
+
+<p>∂/∂θ J(θ) = X^T * (Xθ - y)</p>
+
+<p>Setting this equal to zero, we get:</p>
+
+<p>`X^T * X * θ = X</p>
+
 
         
       </section>
@@ -241,7 +337,11 @@
     
       
       
-      <a href="/tags/#update" class="page__taxonomy-item" rel="tag">update</a>
+      <a href="/tags/#cs229" class="page__taxonomy-item" rel="tag">cs229</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#study" class="page__taxonomy-item" rel="tag">study</a>
     
     </span>
   </p>
@@ -269,7 +369,7 @@
 
 
         
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2023-01-01T00:00:00-05:00">January 1, 2023</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2023-01-05T00:00:00-05:00">January 5, 2023</time></p>
 
 
       </footer>
@@ -277,21 +377,22 @@
       <section class="page__share">
   
 
-  <a href="https://twitter.com/intent/tweet?text=A+Self-Created+Curriculum%20http%3A%2F%2Flocalhost%3A4000%2Fblog%2Fstudying-deep-learning%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=Stanford+CS229%3A++Linear+Regression+and+Gradient+Descent%20http%3A%2F%2Flocalhost%3A4000%2Fblog%2FCS229-Lecture1%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fblog%2Fstudying-deep-learning%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fblog%2FCS229-Lecture1%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fblog%2Fstudying-deep-learning%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fblog%2FCS229-Lecture1%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="#" class="pagination--pager disabled">Previous</a>
+      <a href="/blog/studying-deep-learning/" class="pagination--pager" title="A Self-Created Curriculum
+">Previous</a>
     
     
-      <a href="/blog/CS229-Lecture1/" class="pagination--pager" title="Stanford CS229:  Linear Regression and Gradient Descent
+      <a href="/blog/MNIST-WITH-NUMPY/" class="pagination--pager" title="MNIST From Scratch Using NumPy
 ">Next</a>
     
   </nav>

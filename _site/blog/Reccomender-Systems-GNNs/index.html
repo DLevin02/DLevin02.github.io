@@ -1,0 +1,621 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.19.3 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang=" en" class="no-js">
+
+<head>
+  <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Enhancing Recommender Systems with Graph Neural Networks - Drew Levin</title>
+<meta name="description" content="Introduction">
+
+
+  <meta name="author" content="Drew Levin">
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Drew Levin">
+<meta property="og:title" content="Enhancing Recommender Systems with Graph Neural Networks">
+<meta property="og:url" content="http://localhost:4000/blog/Reccomender-Systems-GNNs/">
+
+
+  <meta property="og:description" content="Introduction">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2023-07-12T00:00:00-04:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/blog/Reccomender-Systems-GNNs/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml"
+  type="application/atom+xml" rel="alternate" title="Drew Levin Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css" id="theme_source">
+
+<link rel="stylesheet alternate" href="/assets/css/theme2.css" id="theme_source_2">
+<script>
+  let theme = sessionStorage.getItem('theme');
+  if (theme === "dark") {
+    sessionStorage.setItem('theme', 'dark');
+    node1 = document.getElementById('theme_source');
+    node2 = document.getElementById('theme_source_2');
+    node1.setAttribute('rel', 'stylesheet alternate');
+    node2.setAttribute('rel', 'stylesheet');
+  }
+  else {
+    sessionStorage.setItem('theme', 'light');
+  }
+</script>
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+  <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+</head>
+
+<body
+  class="layout--single">
+  <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+  <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+  
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Drew Levin
+          <span class="site-subtitle"></span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+            <a href="/posts/" >Posts</a>
+          </li><li class="masthead__menu-item">
+            <a href="/resume/" >Resume</a>
+          </li><li class="masthead__menu-item">
+            <a href="/categories/" >Categories</a>
+          </li><li class="masthead__menu-item">
+            <a href="/tags/" >Tags</a>
+          </li></ul>
+        
+        <i class="fas fa-fw fa-adjust" aria-hidden="true"
+          onclick="node1=document.getElementById('theme_source');node2=document.getElementById('theme_source_2');if(node1.getAttribute('rel')=='stylesheet'){node1.setAttribute('rel', 'stylesheet alternate'); node2.setAttribute('rel', 'stylesheet');sessionStorage.setItem('theme', 'dark');}else{node2.setAttribute('rel', 'stylesheet alternate'); node1.setAttribute('rel', 'stylesheet');sessionStorage.setItem('theme', 'light');} return false;"></i>
+        
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path
+              d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z"
+              transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+  <div class="initial-content">
+    
+
+
+
+<div id="main" role="main">
+  
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Enhancing Recommender Systems with Graph Neural Networks">
+    <meta itemprop="description" content="Introduction">
+    <meta itemprop="datePublished" content="2023-07-12T00:00:00-04:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Enhancing Recommender Systems with Graph Neural Networks
+</h1>
+          
+            <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  2 minute read
+
+</p>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#graph-construction">Graph Construction</a></li>
+  <li><a href="#defining-graph-convolution-network">Defining Graph Convolution Network</a></li>
+  <li><a href="#training-the-model">Training the Model</a></li>
+</ul>
+
+            </nav>
+          </aside>
+        
+        <h1 id="introduction">Introduction</h1>
+
+<p>Recommendation systems have become ubiquitous in the digital world, and they play an integral role in the user experience. From suggesting items on an e-commerce website to recommending a movie or a song, these systems have a significant impact on user engagement and retention. Traditional recommendation systems, such as collaborative filtering and content-based filtering, have their limitations, which can be addressed by using Graph Neural Networks (GNNs).</p>
+
+<p>GNNs are powerful tools that allow us to represent and work with data in the form of graphs, a flexible structure where entities (nodes) and their relationships (edges) are central. Let’s dive deep into how we can leverage GNNs to enhance recommender systems.</p>
+
+<p>We will use the <a href="https://pytorch-geometric.readthedocs.io/en/latest/">PyTorch Geometric</a> library to implement our GNN-based recommendation system.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Let's first import the necessary libraries
+</span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="n">F</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.nn</span> <span class="kn">import</span> <span class="n">GCNConv</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.data</span> <span class="kn">import</span> <span class="n">Data</span>
+</code></pre></div></div>
+
+<h1 id="graph-construction">Graph Construction</h1>
+
+<p>One of the first steps to leveraging GNNs is the proper construction of the graph. In the context of recommender systems, we can consider users and items as nodes, and the interactions between users and items as edges. Here, we will assume we have <code class="language-plaintext highlighter-rouge">user_item_interaction_data</code> available, which is a pandas DataFrame having <code class="language-plaintext highlighter-rouge">user_id</code>, <code class="language-plaintext highlighter-rouge">item_id</code>, and <code class="language-plaintext highlighter-rouge">interaction</code> (e.g., rating) as its columns.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Let's convert users and items into nodes
+</span><span class="n">unique_users</span> <span class="o">=</span> <span class="n">user_item_interaction_data</span><span class="p">[</span><span class="s">'user_id'</span><span class="p">].</span><span class="n">unique</span><span class="p">()</span>
+<span class="n">unique_items</span> <span class="o">=</span> <span class="n">user_item_interaction_data</span><span class="p">[</span><span class="s">'item_id'</span><span class="p">].</span><span class="n">unique</span><span class="p">()</span>
+
+<span class="c1"># Mapping users and items to unique integer values for our graph
+</span><span class="n">user_to_node_id</span> <span class="o">=</span> <span class="p">{</span><span class="n">user</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">user</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">unique_users</span><span class="p">)}</span>
+<span class="n">item_to_node_id</span> <span class="o">=</span> <span class="p">{</span><span class="n">item</span><span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique_users</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">unique_items</span><span class="p">)}</span>
+
+<span class="c1"># Now, let's construct the edges
+</span><span class="n">edges</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">([(</span><span class="n">user_to_node_id</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s">'user_id'</span><span class="p">]],</span> <span class="n">item_to_node_id</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s">'item_id'</span><span class="p">]])</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">user_item_interaction_data</span><span class="p">.</span><span class="n">iterrows</span><span class="p">()],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="nb">long</span><span class="p">).</span><span class="n">t</span><span class="p">().</span><span class="n">contiguous</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h1 id="defining-graph-convolution-network">Defining Graph Convolution Network</h1>
+
+<p>Now that we have the edges defined, we can define our Graph Convolutional Network (GCN). A GCN is a type of GNN that leverages the power of convolutions directly on graphs.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">RecommenderGCN</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RecommenderGCN</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">GCNConv</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">GCNConv</span><span class="p">(</span><span class="n">hidden_channels</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">conv3</span> <span class="o">=</span> <span class="n">GCNConv</span><span class="p">(</span><span class="n">hidden_channels</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">relu</span><span class="p">()</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">relu</span><span class="p">()</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">conv3</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>The model’s architecture contains three graph convolution layers. Each layer performs a specific transformation defined by a graph convolution operation, followed by a ReLU activation function.</p>
+
+<h1 id="training-the-model">Training the Model</h1>
+
+<p>Let’s train the model with the interaction data. We’ll use Mean Squared Error as our loss function, which is typically used in recommendation system tasks.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">device</span><span class="p">(</span><span class="s">'cuda'</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s">'cpu'</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">RecommenderGCN</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span> <span class="mi">64</span><span class="p">).</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">edges</span> <span class="o">=</span> <span class="n">edges</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">optim</span><span class="p">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+
+<span class="n">model</span><span class="p">.</span><span class="n">train</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">200</span><span class="p">):</span>
+    <span class="n">optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="n">edges</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">mse_loss</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">user_item_interaction_data</span><span class="p">[</span><span class="s">'interaction'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">))</span>
+    <span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optimizer</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'Epoch: </span><span class="si">{</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s">, Loss: </span><span class="si">{</span><span class="n">loss</span><span class="p">.</span><span class="n">item</span><span class="p">():.</span><span class="mi">4</span><span class="n">f</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>This code will train the model for 200 epochs and print the loss at each epoch. The model parameters are updated using the Adam optimizer with a learning rate of 0.01.</p>
+
+<p>By using GNNs and more specifically GCNs, we can design more powerful and flexible recommender systems that can capture complex user-item interactions. This approach paves the way for more efficient, effective, and personalized recommendation systems that could significantly improve user experiences in various applications.</p>
+
+<hr />
+
+<p>I hope this in-depth exploration into the intersection of GNNs and recommendation systems provided you with useful insights. As we’ve seen, leveraging the power of graphs can significantly enhance the capabilities of recommendation systems, ultimately leading to better user experiences and increased engagement. This is just the tip of the iceberg, and I look forward to further exploration of this exciting and rapidly evolving field!</p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/#gnns" class="page__taxonomy-item" rel="tag">GNNS</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#study" class="page__taxonomy-item" rel="tag">study</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/#blog" class="page__taxonomy-item" rel="tag">blog</a>
+    
+    </span>
+  </p>
+
+
+        
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2023-07-12T00:00:00-04:00">July 12, 2023</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Enhancing+Recommender+Systems+with+Graph+Neural+Networks%20http%3A%2F%2Flocalhost%3A4000%2Fblog%2FReccomender-Systems-GNNs%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fblog%2FReccomender-Systems-GNNs%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fblog%2FReccomender-Systems-GNNs%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/AI-Weeky/" class="pagination--pager" title="The AI Insider: Advancements, Challenges, and Breakthroughs in Artificial Intelligence
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/AI-Weeky/" rel="permalink">The AI Insider: Advancements, Challenges, and Breakthroughs in Artificial Intelligence
+</a>
+      
+    </h2>
+<!--
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  4 minute read
+
+</p>
+    
+-->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> July 02 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Introduction
+
+</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/AI-Weeky/" rel="permalink">AI Roundup: Advances, Scrutiny, and Future Projections
+</a>
+      
+    </h2>
+<!--
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  6 minute read
+
+</p>
+    
+-->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> June 25 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Introduction
+Welcome to this week’s digest of AI news. We’ve seen significant strides in technology, with innovations like 3D dog reconstruction from a singl...</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/Stock-Predcition/" rel="permalink">Stock Price Prediction of Apple with PyTorch
+</a>
+      
+    </h2>
+<!--
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  13 minute read
+
+</p>
+    
+-->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> June 20 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">LSTM and GRU
+
+</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/blog/AI-Weeky/" rel="permalink">AI Evolution: Weekly News Digest
+</a>
+      
+    </h2>
+<!--
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  6 minute read
+
+</p>
+    
+-->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> June 18 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Introduction
+AI is revolutionizing various aspects of our daily lives, with new applications and advancements emerging every week. Here’s a roundup of some o...</p>
+  </article>
+</div>
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+  </div>
+
+  
+  <div class="search-content">
+    <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+  </div>
+  
+
+  <div class="page__footer">
+    <footer>
+      <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+      <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+      
+        
+          <li><a href="https://github.com/DLevin02" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/drewlevin-/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 Drew Levin. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+    </footer>
+  </div>
+
+  
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://kit.fontawesome.com/4eee35f757.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-154432000-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-154432000-1');
+</script>
+
+
+
+
+
+</body>
+
+</html>

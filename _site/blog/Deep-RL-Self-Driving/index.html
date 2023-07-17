@@ -10,7 +10,7 @@
 <head>
   <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Stanford CS229:  Linear Regression and Gradient Descent - Drew Levin</title>
+<!-- begin _includes/seo.html --><title>Deep Reinforcement Learning for Autonomous Vehicles: A Path to the Future - Drew Levin</title>
 <meta name="description" content="Introduction">
 
 
@@ -20,8 +20,8 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Drew Levin">
-<meta property="og:title" content="Stanford CS229:  Linear Regression and Gradient Descent">
-<meta property="og:url" content="http://localhost:4000/blog/CS229-Lecture1/">
+<meta property="og:title" content="Deep Reinforcement Learning for Autonomous Vehicles: A Path to the Future">
+<meta property="og:url" content="http://localhost:4000/blog/Deep-RL-Self-Driving/">
 
 
   <meta property="og:description" content="Introduction">
@@ -32,14 +32,14 @@
 
 
 
-  <meta property="article:published_time" content="2023-02-15T00:00:00-05:00">
+  <meta property="article:published_time" content="2023-04-11T00:00:00-04:00">
 
 
 
 
 
 
-<link rel="canonical" href="http://localhost:4000/blog/CS229-Lecture1/">
+<link rel="canonical" href="http://localhost:4000/blog/Deep-RL-Self-Driving/">
 
 
 
@@ -198,15 +198,15 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Stanford CS229:  Linear Regression and Gradient Descent">
+    <meta itemprop="headline" content="Deep Reinforcement Learning for Autonomous Vehicles: A Path to the Future">
     <meta itemprop="description" content="Introduction">
-    <meta itemprop="datePublished" content="2023-02-15T00:00:00-05:00">
+    <meta itemprop="datePublished" content="2023-04-11T00:00:00-04:00">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">Stanford CS229:  Linear Regression and Gradient Descent
+          <h1 id="page-title" class="page__title" itemprop="headline">Deep Reinforcement Learning for Autonomous Vehicles: A Path to the Future
 </h1>
           
             <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
@@ -214,7 +214,7 @@
 
 
 
-  2 minute read
+  3 minute read
 
 </p>
           
@@ -227,95 +227,79 @@
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
               <ul class="toc__menu">
-  <li><a href="#introduction">Introduction</a>
-    <ul>
-      <li><a href="#linear-regression">Linear Regression:</a></li>
-      <li><a href="#cost-function">Cost Function:</a></li>
-      <li><a href="#gradient-descent">Gradient Descent:</a></li>
-      <li><a href="#normal-equation">Normal Equation:</a></li>
-    </ul>
-  </li>
+  <li><a href="#introduction">Introduction</a></li>
+  <li><a href="#the-power-of-deep-q-learning">The Power of Deep Q-Learning</a></li>
+  <li><a href="#our-simulated-environment-the-openai-gym">Our Simulated Environment: The OpenAI Gym</a></li>
+  <li><a href="#dqn-in-action">DQN in Action</a></li>
+  <li><a href="#model-evaluation">Model Evaluation</a></li>
+  <li><a href="#the-road-ahead">The Road Ahead</a></li>
 </ul>
 
             </nav>
           </aside>
         
-        <h1 id="introduction">Introduction</h1>
+        <h2 id="introduction">Introduction</h2>
 
-<p>I have recently starting taking CS229 with Andrew Ng through Stanford. This is a course that can take you to the moon if done correctly. With that being said I want to document everything I learn and take it to the next level by doing further research and gaining deeper understanding.</p>
+<p>The domain of self-driving cars is an extraordinary example of how cutting-edge machine learning techniques are being applied to real-world problems. Key players in this landscape like Tesla and Comma.ai, led by the indomitable George Hotz, are transforming our understanding of transport. My profound interest in this field propels me to explore its depths, particularly the application of Deep Reinforcement Learning (DRL) in the design of autonomous vehicles.</p>
 
-<h2 id="linear-regression">Linear Regression:</h2>
+<p>Reinforcement Learning (RL) and its advanced variant, DRL, are the cornerstones of modern intelligent systems that learn to make sequences of decisions. From Go-playing champions like AlphaGo to sophisticated robotics, DRL has been instrumental in breaking barriers.</p>
 
-<p>In the context of machine learning, linear regression uses a set of input features (X1, X2, …, Xn) to predict a continuous output variable Y.</p>
+<h2 id="the-power-of-deep-q-learning">The Power of Deep Q-Learning</h2>
 
-<p>The equation for multiple linear regression is:</p>
+<p>Q-Learning, a classic RL algorithm, aims to learn a policy that can tell an agent what action to take under what circumstances. It does this by learning a Q-function, which predicts the expected return (the sum of future rewards) for taking an action in a given state.</p>
 
-<p>Y = θ0 + θ1<em>X1 + θ2</em>X2 + … + θn*Xn + e</p>
+<p>Deep Q-Networks (DQN), an offshoot of Q-Learning, leverages deep learning to approximate the Q-function. With DQN, we can process high-dimensional inputs and handle large action spaces, which is essential in complex scenarios like autonomous driving.</p>
 
-<p>Y = Output variable
-θ0, θ1, …, θn = Parameters of the model
-X1, X2, …, Xn = Input features
-e = error term</p>
+<p>The fundamental architecture of a DQN involves a neural network taking in states and outputting Q-values for all possible actions. The action with the highest Q-value is chosen according to an ε-greedy strategy, ensuring a balance between exploration and exploitation.</p>
 
-<h2 id="cost-function">Cost Function:</h2>
+<p>The key idea in DQN is the use of a separate target network to compute the Q-learning targets, which stabilizes the training. This approach helps us mitigate the risk of harmful feedback loops and fluctuating Q-values, often observed in traditional RL methods.</p>
 
-<p>Linear regression typically uses a cost function called Mean Squared Error (MSE) to measure the error in the model’s predictions. The goal of linear regression is to find the parameters θ that minimize the cost function.</p>
+<h2 id="our-simulated-environment-the-openai-gym">Our Simulated Environment: The OpenAI Gym</h2>
 
-<p>The cost function J(θ) for linear regression is:</p>
+<p>The <code class="language-plaintext highlighter-rouge">CarRacing-v0</code> environment in OpenAI’s <code class="language-plaintext highlighter-rouge">gym</code> is an excellent playground for autonomous vehicle algorithms. It offers a top-down view of a simple track, where our autonomous vehicle needs to navigate the optimal path.</p>
 
-<p>J(θ) = 1/2m Σ (hθ(xi) - yi)^2</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Environment setup
+</span><span class="kn">import</span> <span class="nn">gym</span>
+<span class="n">env</span> <span class="o">=</span> <span class="n">gym</span><span class="p">.</span><span class="n">make</span><span class="p">(</span><span class="s">'CarRacing-v0'</span><span class="p">)</span>
+</code></pre></div></div>
 
-<p>where:</p>
+<h2 id="dqn-in-action">DQN in Action</h2>
 
-<p>m is the number of training examples
-hθ(xi) is the predicted output for the ith training example using the current parameters θ
-yi is the actual output for the ith training example</p>
+<p>We’ll utilize the <code class="language-plaintext highlighter-rouge">stable_baselines3</code> library, which offers a user-friendly implementation of DQN. Let’s define and train our model:</p>
 
-<h2 id="gradient-descent">Gradient Descent:</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">stable_baselines3</span> <span class="kn">import</span> <span class="n">DQN</span>
 
-<p>Gradient Descent is an optimization algorithm used to minimize the cost function. It iteratively adjusts the parameters θ in the direction that reduces the cost function the most, until the cost function converges to a minimum.</p>
+<span class="c1"># Model definition
+</span><span class="n">model</span> <span class="o">=</span> <span class="n">DQN</span><span class="p">(</span><span class="s">"MlpPolicy"</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.0005</span><span class="p">,</span> <span class="n">buffer_size</span><span class="o">=</span><span class="mi">50000</span><span class="p">,</span> <span class="n">exploration_fraction</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">exploration_final_eps</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span>
 
-<p>The update rule for the gradient descent is:</p>
+<span class="c1"># Model training
+</span><span class="n">model</span><span class="p">.</span><span class="n">learn</span><span class="p">(</span><span class="n">total_timesteps</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+</code></pre></div></div>
 
-<p>θj := θj - α * ∂/∂θj J(θ)</p>
+<p>Here, <code class="language-plaintext highlighter-rouge">MlpPolicy</code> is a feed-forward neural network policy that DQN uses to decide which action to take based on the current state. We set a relatively small learning rate (0.0005) to ensure smooth convergence, and we use a large buffer size (50000) to store more past experiences for sampling. Our ε-greedy strategy starts at 0.1 and decays to 0.02, meaning that our agent starts by exploring the environment quite a lot, but over time, it focuses more on exploiting its learned policy.</p>
 
-<p>where:</p>
+<h2 id="model-evaluation">Model Evaluation</h2>
 
-<p>α is the learning rate, determining the step size in each iteration
-∂/∂θj J(θ) is the partial derivative of the cost function with respect to the parameter θj
-The partial derivative of the cost function with respect to a parameter θj is:</p>
+<p>After the training phase, we evaluate the performance of our model:</p>
 
-<p>∂/∂θj J(θ) = 1/m * Σ (hθ(xi) - yi) * xij</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">stable_baselines3.common.evaluation</span> <span class="kn">import</span> <span class="n">evaluate_policy</span>
 
-<p>Therefore, the update rule becomes:</p>
+<span class="c1"># Model evaluation
+</span><span class="n">mean_reward</span><span class="p">,</span> <span class="n">std_reward</span> <span class="o">=</span> <span class="n">evaluate_policy</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">model</span><span class="p">.</span><span class="n">get_env</span><span class="p">(),</span> <span class="n">n_eval_episodes</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Mean reward: </span><span class="si">{</span><span class="n">mean_reward</span><span class="si">}</span><span class="s"> +/- </span><span class="si">{</span><span class="n">std_reward</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</code></pre></div></div>
 
-<p>θj := θj - α * 1/m * Σ (hθ(xi) - yi) * xij</p>
+<p>This evaluation provides us with the mean reward and its standard deviation over 10 episodes, offering a snapshot of our DQN model’s performance.</p>
 
-<p>Here, α is the learning rate, which controls how large a step we take in each iteration.</p>
+<h2 id="the-road-ahead">The Road Ahead</h2>
 
-<h2 id="normal-equation">Normal Equation:</h2>
+<p>Tesla, Comma.ai, and others are pushing the boundaries of autonomous driving using complex networks of sensors and deep learning models. These models have to solve challenging tasks, from recognizing objects and predicting their trajectories to making safe and efficient driving decisions.</p>
 
-<p>The Normal Equation is an analytical approach to linear regression that can be used to find the values of the parameters θ that minimize the cost function. Unlike gradient descent, this method does not require choosing a learning rate α, and it does not require many iterations since it directly computes the solution.</p>
+<p>While my DQN experiment is a simplified version of this complex problem, the principles remain the same. The ability of DRL algorithms to learn from interactions with the environment, and to improve through trial and error, is at the heart of developing vehicles that can drive themselves safely and efficiently.</p>
 
-<p>The normal equation is:</p>
+<p>In future posts, we’ll delve deeper into more advanced techniques such as policy gradients and actor-critic methods, which have shown great promise in autonomous driving applications. We’ll also touch upon the ethical, legal, and societal implications of this transformative technology.</p>
 
-<p>θ = (X^T * X)^-1 * X^T * y</p>
-
-<p>where:</p>
-
-<p>X is the matrix of input features
-y is the vector of output variables
-The cost function in matrix form is:</p>
-
-<p>J(θ) = 1/2 * (Xθ - y)^T * (Xθ - y)</p>
-
-<p>We can differentiate this with respect to θ:</p>
-
-<p>∂/∂θ J(θ) = X^T * (Xθ - y)</p>
-
-<p>Setting this equal to zero, we get:</p>
-
-<p>`X^T * X * θ = X</p>
+<p>This exploration serves as a testament to my commitment to understanding and applying advanced machine learning concepts, with the hope of being part of the change we’re witnessing in the world of transportation.</p>
 
 
         
@@ -337,7 +321,11 @@ The cost function in matrix form is:</p>
     
       
       
-      <a href="/tags/#cs229" class="page__taxonomy-item" rel="tag">cs229</a><span class="sep">, </span>
+      <a href="/tags/#reinforcement-learning" class="page__taxonomy-item" rel="tag">Reinforcement Learning</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/#self-driving-cars" class="page__taxonomy-item" rel="tag">Self Driving Cars</a><span class="sep">, </span>
     
       
       
@@ -369,7 +357,7 @@ The cost function in matrix form is:</p>
 
 
         
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2023-02-15T00:00:00-05:00">February 15, 2023</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2023-04-11T00:00:00-04:00">April 11, 2023</time></p>
 
 
       </footer>
@@ -377,22 +365,22 @@ The cost function in matrix form is:</p>
       <section class="page__share">
   
 
-  <a href="https://twitter.com/intent/tweet?text=Stanford+CS229%3A++Linear+Regression+and+Gradient+Descent%20http%3A%2F%2Flocalhost%3A4000%2Fblog%2FCS229-Lecture1%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=Deep+Reinforcement+Learning+for+Autonomous+Vehicles%3A+A+Path+to+the+Future%20http%3A%2F%2Flocalhost%3A4000%2Fblog%2FDeep-RL-Self-Driving%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fblog%2FCS229-Lecture1%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fblog%2FDeep-RL-Self-Driving%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fblog%2FCS229-Lecture1%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fblog%2FDeep-RL-Self-Driving%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/blog/Fraud-Creditcard-Detection/" class="pagination--pager" title="Credit Card Fraud Detection Using Random Forest
+      <a href="/blog/cs229/CS229-ProblemSet1/" class="pagination--pager" title="CS229 Problem Set #1: Supervised Learning
 ">Previous</a>
     
     
-      <a href="/blog/cs229/CS229-ProblemSet1/" class="pagination--pager" title="CS229 Problem Set #1: Supervised Learning
+      <a href="/blog/AI-Resources/" class="pagination--pager" title="AI Resources
 ">Next</a>
     
   </nav>

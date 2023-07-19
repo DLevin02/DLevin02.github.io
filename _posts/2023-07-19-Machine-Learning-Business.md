@@ -1,16 +1,12 @@
 ---
-Title: "The Emergence of Machine Learning: Recalibrating Business Strategies in the Contemporary Digital Epoch"
-
-Date: 2023-07-19
-
-Mathjax: true
-
-TOC: true
-
-Categories:
+title: "The Emergence of Machine Learning: Recalibrating Business Strategies in the Contemporary Digital Epoch"
+date: 2023-07-19
+mathjax: true
+toc: true
+categories:
 - Blog
 
-Tags:
+tags:
 - Machine Learning
 - Business Strategy
 - Digital Transformation

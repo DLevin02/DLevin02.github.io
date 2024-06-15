@@ -76,8 +76,8 @@ plugins:
 author:
   name: "Drew Levin"
   avatar: "/assets/images/Photo.jpg"
-  bio: "An aspiring machine learning engineer and data scientist."
-  location: "New York, New York"
+  bio: "Machine Learning @ Columbia University."
+  location: "New York, NY"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope"

@@ -77,11 +77,11 @@ author:
   name: "Drew Levin"
   avatar: "/assets/images/Photo.jpg"
   bio: "An aspiring machine learning engineer and data scientist."
-  location: "Madison, WI"
+  location: "New York, New York"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope"
-      url: "mailto:dslevin2@wisc.edu"
+      url: "mailto:d.levin@columbia.edu"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/DLevin02"

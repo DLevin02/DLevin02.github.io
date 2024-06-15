@@ -1,12 +1,9 @@
 ---
 permalink: /
 layout: archive
-title: "Hello there!"
+title: "Greetings!"
 author_profile: true
 ---
-
-Greetings!
-
 I am thrilled to welcome you to my professional corner of the internet. I am Drew Levin, currently pursuing a Master of Science in Computer Science with a specialization in Machine Learning at Columbia University. I hold a Bachelor of Science in Computer Science and Data Science from the University of Wisconsin-Madison.
 
 My academic interests are both broad and deep, with a special focus on machine learning and data science. While I firmly believe in the transformative power of AI, I remain grounded in the understanding that AI cannot yet emulate human empathy or emotions, keeping my expectations realistic. Nevertheless, I am confident that the growing applications of machine learning will continue to reshape various sectors across the globe. I take immense pride in my expertise in Python and am a staunch advocate of open-source technology.
